@@ -5,7 +5,7 @@ feature 'User can sign in', '
   As an unauthenticated user
   I would like to be able to sigh in
 ' do
-  given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+  given(:user) { create(:user) }
 
   background { visit new_user_session_path }
 

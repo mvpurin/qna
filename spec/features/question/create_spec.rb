@@ -5,13 +5,12 @@ feature 'User can create question', '
   As an authenticated user
   I would like to ba able to ask a question
 ' do
-
   given(:user) { create(:user) }
 
   describe 'Authenticated user' do
     background do
       sign_in(user)
-      
+
       visit questions_path
       click_on 'Ask question'
     end

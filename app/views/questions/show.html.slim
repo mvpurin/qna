@@ -1,2 +1,9 @@
 h1= @question.title
 p= @question.body
+
+= form_with model: [@question, Answer.new], local: true do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Give answer'

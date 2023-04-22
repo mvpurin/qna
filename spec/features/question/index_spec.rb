@@ -7,6 +7,7 @@ feature 'User can see a list of questions', '
   given!(:question) { create(:question) }
 
   scenario 'User see a list of questions' do
+    visit questions_path
 
     expect(page).to have_content "#{question.title}"
     expect(page).to have_content "#{question.body}"

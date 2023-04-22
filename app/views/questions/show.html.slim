@@ -1,6 +1,8 @@
 h1= @question.title
 p= @question.body
 
+= render @question.answers
+
 = form_with model: [@question, Answer.new], local: true do |f|
   = f.label :title
   = f.text_field :title

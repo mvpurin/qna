@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can see a question and its answers', %q{
+feature 'User can see a question and its answers', '
   As an authenticated user or not
   I would like to see a question and its answers
-} do
+' do
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 

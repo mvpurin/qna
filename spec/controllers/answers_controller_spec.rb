@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
+  let(:answer) { create(:answer, question: question) }
   let(:user) { create(:user) }
 
   describe 'GET #new' do
@@ -17,7 +18,15 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :new
     end
   end
-  
+
+  describe 'GET #show' do
+    before { get :show, params: { id: answer } }
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
   describe 'POST #create' do
     before { login(user) }
 

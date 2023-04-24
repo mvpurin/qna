@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
     @answer.user_id = current_user.id
 
     if @answer.save
-      redirect_to @answer, notice: 'Your answer was successfully created.'
+      redirect_to question_path(@answer.question_id), notice: 'Your answer was successfully created.'
     else
       render :new
     end

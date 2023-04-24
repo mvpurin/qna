@@ -6,16 +6,18 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+
+  end
 
   def new
-    @question = Question.new
+    @question = current_user.questions.new
   end
 
   def edit; end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
       redirect_to @question, notice: 'Your question was successfully created.'
@@ -43,7 +45,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
 
-  helper_method :question
+  # helper_method :question
 
   def question_params
     params.require(:question).permit(:title, :body)

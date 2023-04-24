@@ -5,7 +5,7 @@ feature 'User can create answer', '
   I would like to ba able to give an answer
 ' do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user' do
     background do
@@ -17,7 +17,7 @@ feature 'User can create answer', '
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer body'
       click_on 'Give answer'
-
+save_and_open_page
       expect(page).to have_content 'Your answer was successfully created.'
       expect(page).to have_content 'Answer title'
       expect(page).to have_content 'Answer body'

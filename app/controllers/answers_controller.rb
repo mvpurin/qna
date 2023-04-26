@@ -7,25 +7,21 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
-  def show; 
-
-  end
-
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user_id = current_user.id
 
     if @answer.save
-      redirect_to question_path(@answer.question_id), notice: 'Your answer was successfully created.'
+      redirect_to question_path(@question), notice: 'Your answer was successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 
   def destroy
     if @answer.user_id == current_user.id
       @answer.destroy
-      redirect_to question_path(@answer.question_id), notice: 'Question was successfully deleted.'
+      redirect_to question_path(@answer.question_id), notice: 'Answer was successfully deleted.'
     else
       redirect_to question_path(@answer.question_id), notice: 'You can not delete answers of other users.' 
     end

@@ -1,5 +1,6 @@
 = render 'shared/errors', resource: @question
 
+h2 Create new question
 = form_with model: @question do |f|
   = f.label :title
   = f.text_field :title

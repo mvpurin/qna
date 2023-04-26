@@ -35,8 +35,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    if @question.user_id == current_user.id
+      @question.destroy
+      redirect_to questions_path, notice: 'Question was successfully deleted.'
+    else
+      redirect_to question_path(@question), notice: 'You can not delete questions of other users.'
+    end
   end
 
   private
@@ -44,8 +48,6 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.find(params[:id])
   end
-
-  # helper_method :question
 
   def question_params
     params.require(:question).permit(:title, :body)

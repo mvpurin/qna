@@ -15,16 +15,8 @@ RSpec.describe AnswersController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    it 'renders new view' do
+    it 'renders questions/show view' do
       expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #show' do
-    before { get :show, params: { id: answer } }
-
-    it 'renders show view' do
-      expect(response).to render_template :show
     end
   end
 
@@ -55,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
       it 're-renders new view' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question, user_id: user }
 
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end

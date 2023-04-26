@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[index new create]
-  before_action :find_answer, only: %i[show, destroy]
+  before_action :find_answer, only: %i[show destroy]
 
   def new
     @answer = @question.answers.new
@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       redirect_to question_path(@answer.question_id), notice: 'Answer was successfully deleted.'
     else
-      redirect_to question_path(@answer.question_id), notice: 'You can not delete answers of other users.' 
+      redirect_to question_path(@answer.question_id), notice: 'You can not delete answers of other users.'
     end
   end
 

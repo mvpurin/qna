@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', '
   As unregistered user
   I would like to sign up
-} do
+' do
   scenario 'Unregistered user can sign up' do
     visit new_user_registration_path
 

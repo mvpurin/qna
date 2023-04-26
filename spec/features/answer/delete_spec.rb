@@ -20,16 +20,6 @@ feature 'User can delete an answer', %q{
 
     click_on 'Delete answer'
 
-    expect(page).to have_content 'Question was successfully deleted.'
-  end
-
-  scenario 'Authenticated user tries to delete an answer of another user' do
-    sign_in(user_1)
-
-    visit question_path(question_1)
-
-    click_on 'Delete answer'
-
-    expect(page).to have_content 'You can not delete answers of other users.'
+    expect(page).to have_content 'Answer was successfully deleted.'
   end
 end

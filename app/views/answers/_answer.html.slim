@@ -1,6 +1,6 @@
-h2= answer.title 
-p1= answer.body
+- if answer.persisted?
+  h2= answer.title 
+  p1= answer.body
 
-- if user_signed_in? 
-  - if answer.persisted? && current_user.id == answer.user_id
+  - if user_signed_in? && current_user.id == answer.user_id
     = link_to 'Delete answer', answer, method: :delete

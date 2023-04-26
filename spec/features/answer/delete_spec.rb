@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can delete an answer', %q{
+feature 'User can delete an answer', '
   As an authenticated user
   I would like to delete answer
-} do
+' do
   given!(:user_1) { create(:user) }
   given!(:user_2) { create(:user) }
 

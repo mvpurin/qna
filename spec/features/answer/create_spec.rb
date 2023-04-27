@@ -25,7 +25,7 @@ feature 'User can create answer', '
 
     scenario 'tries to give an answer with errors' do
       click_on 'Give answer'
-
+save_and_open_page
       expect(page).to have_content "Title can't be blank"
     end
   end

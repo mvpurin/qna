@@ -9,7 +9,7 @@ p= @question.body
 h2 Create new answer
 .answer-errors
   = render 'shared/errors', resource: @answer
-= form_with model: [@question, @question.answers.new], local: true do |f|
+= form_with model: [@question, @question.answers.new], local: false do |f|
   = f.label :title
   = f.text_field :title
   = f.label :body

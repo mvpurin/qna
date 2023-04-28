@@ -2,8 +2,8 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-
-require("activestorage")
+require("@rails/ujs")
 require("turbolinks")
-require("jquery3")
-require("jquery_ujs")
+require("@rails/activestorage")
+require("channels")
+require("jquery")

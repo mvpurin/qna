@@ -17,7 +17,7 @@ feature 'User can create answer', '
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer body'
       click_on 'Give answer'
-
+save_and_open_page
       expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Your answer was successfully created.'
       expect(page).to have_content 'Answer title'
@@ -26,12 +26,12 @@ feature 'User can create answer', '
 
     scenario 'tries to give an answer with errors' do
       click_on 'Give answer'
-save_and_open_page
+
       expect(page).to have_content "Title can't be blank"
     end
   end
 
-  scenario 'Unauthenticated user tries to give an answer' do
+  scenario 'Unauthenticated user tries to give an answer', js: true do
     visit question_path(question)
 
     click_on 'Give answer'

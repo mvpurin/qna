@@ -1,9 +1,11 @@
-= question.id 
-br
-= question.title 
-br
-= question.body
-br
-
-- if user_signed_in? && current_user.id == question.user_id
-  = link_to 'Delete question', question_path(question), method: :delete
+tr
+  th
+    = question.title 
+tr
+  td
+    = question.body
+  td
+    td= link_to 'See question', question_path(question)
+  td
+    - if user_signed_in? && current_user.id == question.user_id
+      = link_to 'Delete question', question_path(question), method: :delete

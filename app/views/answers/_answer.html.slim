@@ -5,7 +5,7 @@ tr
     td
       - if user_signed_in? && current_user.id == answer.user_id
         = link_to 'Delete answer', answer_path(answer), method: :delete
-    td= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     td
       = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         = f.label :title

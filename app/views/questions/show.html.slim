@@ -16,8 +16,8 @@ table
         .answer-errors
           = render 'shared/errors', resource: @answer
     tr 
-      td 
-        = form_with model: [@question, @question.answers.new], local: false do |f|
+      td.new 
+        = form_with model: [@question, @question.answers.new], class: 'new-answer', local: false do |f|
           = f.label :title
           = f.text_field :title
           = f.label :body

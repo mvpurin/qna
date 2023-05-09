@@ -5,10 +5,9 @@ table
     tr
       th= @question.body
   tbody
-    tr 
-      td
-        .answers
-          = render @question.answers
+    tr
+      td.answers
+        = render @question.answers
     tr 
       th Add new answer 
     tr 
@@ -23,3 +22,5 @@ table
           = f.label :body
           = f.text_area :body
           = f.submit 'Give answer'
+    tr 
+      td= link_to 'All questions', questions_path

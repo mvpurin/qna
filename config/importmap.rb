@@ -7,7 +7,7 @@ pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin_all_from 'app/javascript/controllers', under: 'controllers'
 pin '@rails/ujs', to: 'https://ga.jspm.io/npm:@rails/ujs@7.0.4-3/lib/assets/compiled/rails-ujs.js'
 
-pin "jquery", to: "jquery.min.js", preload: true
-pin "jquery_ujs", to: "jquery_ujs.js", preload: true
+pin 'jquery', to: 'jquery.min.js', preload: true
+pin 'jquery_ujs', to: 'jquery_ujs.js', preload: true
 
-pin_all_from "app/javascript/utilities", under: "utilities"
+pin_all_from 'app/javascript/utilities', under: 'utilities'

@@ -7,3 +7,4 @@ import "jquery"
 import "jquery_ujs"
 
 import "utilities/answers"
+import "utilities/questions"

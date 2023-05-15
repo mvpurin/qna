@@ -1,18 +1,19 @@
-table
-  body
-    tr
-      - if answer.persisted?
-        td= answer.title 
-        td= answer.body
-        td
-          - if user_signed_in? && current_user.id == answer.user_id
-            = link_to 'Delete answer', answer_path(answer), method: :delete
-            = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-        td
-          = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-            = f.label :title
-            = f.text_field :title
-            = f.label :body
-            = f.text_area :body
-            = f.submit 'Save'
+div id="answer-#{answer.id}"
+  table
+    body
+      tr
+        - if answer.persisted?
+          td= answer.title 
+          td= answer.body
+          td
+            - if user_signed_in? && current_user.id == answer.user_id
+              = link_to 'Delete answer', answer_path(answer), method: :delete
+              = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          td
+            = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+              = f.label :title
+              = f.text_field :title
+              = f.label :body
+              = f.text_area :body
+              = f.submit 'Save'
 

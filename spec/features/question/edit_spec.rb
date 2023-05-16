@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can edit his question', %q{
+feature 'User can edit his question', '
   As an authenticated user
   I wuold like to edit my question
-} do
+' do
   given!(:user) { create(:user) }
   given!(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
@@ -18,9 +18,9 @@ feature 'User can edit his question', %q{
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
-      visit questions_path 
+      visit questions_path
     end
-  
+
     scenario 'tries to edit his question' do
       click_on 'Edit question'
 
@@ -35,7 +35,7 @@ feature 'User can edit his question', %q{
         expect(page).to_not have_selector 'textarea'
       end
     end
-  
+
     scenario 'tries to edit his question with errors' do
       click_on 'Edit question'
 
@@ -50,9 +50,9 @@ feature 'User can edit his question', %q{
     scenario "tries to edit other user's question" do
       visit questions_path
 
-      within "div#question-#{question2.id}" do  
+      within "div#question-#{question2.id}" do
         expect(page).to_not have_content 'Edit question'
-      end    
+      end
     end
   end
 end

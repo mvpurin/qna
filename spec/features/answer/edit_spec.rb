@@ -6,7 +6,7 @@ feature 'User can edit his answer', '
   I would like to be able to edit my answer
 ' do
   given!(:user) { create(:user) }
-  given!(:user2) { create(:user) } 
+  given!(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
   given!(:answer2) { create(:answer, question: question, user: user2) }
@@ -20,7 +20,7 @@ feature 'User can edit his answer', '
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
-      visit question_path(question)   
+      visit question_path(question)
     end
 
     scenario 'edits his answer' do
@@ -41,7 +41,7 @@ feature 'User can edit his answer', '
       within "div#answer-#{answer.id}" do
         click_on 'Edit'
         fill_in 'Title', with: ''
-        click_on 'Save' 
+        click_on 'Save'
       end
 
       expect(page).to have_content "Title can't be blank"

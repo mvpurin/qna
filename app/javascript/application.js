@@ -6,5 +6,5 @@ import "controllers"
 import "jquery"
 import "jquery_ujs"
 
-import "utilities/answers"
-import "utilities/questions"
+import "utilities/edit_answer"
+import "utilities/edit_question"

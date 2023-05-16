@@ -7,19 +7,38 @@ feature 'User can delete an answer', '
   given!(:user_1) { create(:user) }
   given!(:user_2) { create(:user) }
 
-  given!(:question_1) { create(:question, user: user_1) }
-  given!(:question_2) { create(:question, user: user_2) }
+  given!(:question) { create(:question, user: user_1) }
 
-  given!(:answer_1) { create(:answer, question: question_1, user: user_2) }
-  given!(:answer_2) { create(:answer, question: question_2, user: user_1) }
+  given!(:answer_1) { create(:answer, question: question, user: user_1) }
+  given!(:answer_2) do
+    create(:answer, title: 'answer_2_title', body: 'answer_2_body', question: question, user: user_2)
+  end
 
-  scenario 'Authenticated user tries to delete his answer' do
-    sign_in(user_1)
+  describe 'Authenticated user', js: true do
+    background do
+      sign_in(user_1)
+      visit question_path(question)
+    end
 
-    visit question_path(question_2)
+    scenario 'tries to delete his answer' do
+      within "div#answer-#{answer_1.id}" do
+        click_on 'Delete answer'
+      end
 
-    click_on 'Delete answer'
+      expect(page).to_not have_content answer_1.title
+      expect(page).to_not have_content answer_1.body
+    end
 
-    expect(page).to have_content 'Answer was successfully deleted.'
+    scenario 'tries to delete an answer of another user' do
+      within "div#answer-#{answer_2.id}" do
+        expect(page).to_not have_link 'Delete answer'
+      end
+    end
+  end
+
+  scenario 'Unauthenticated user tries to delete an answer' do
+    visit question_path(question)
+
+    expect(page).to_not have_link 'Delete answer'
   end
 end

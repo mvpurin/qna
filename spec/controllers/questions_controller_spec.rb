@@ -21,6 +21,18 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
+    # let!(:answer_1) { create(:answer, question: question, user: user) }
+    # let!(:answer_2) { create(:answer, question: question, user: user) }
+
+    it 'assings the requested question to @question' do
+      expect(assigns(:best_answer)).to eq question.best_answer
+    end
+
+    # it 'assigns best_answer and other_answers to @best_answer and @other_answers' do
+    #   expect(assigns(:best_answer)).to eq question.best_answer
+    #   expect(assigns(:other_answers). to eq :other_answers)
+    # end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end

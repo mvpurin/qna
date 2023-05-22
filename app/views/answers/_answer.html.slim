@@ -5,6 +5,9 @@ div id="answer-#{answer.id}"
         - if answer.persisted?
           td= answer.title 
           td= answer.body
+          td 
+            - if user_signed_in?
+              = link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
           td
             - if user_signed_in? && current_user.id == answer.user_id
               = link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true

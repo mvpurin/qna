@@ -7,7 +7,11 @@ table
   tbody
     tr
       td.answers
-        = render @question.answers
+        - if @question.best_answer
+          = render @best_answer
+          = render @other_answers
+        - else 
+          = render @question.answers
     tr 
       th Add new answer 
     tr 

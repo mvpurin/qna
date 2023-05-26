@@ -13,7 +13,7 @@ feature 'User can create answer', '
       visit question_path(question)
     end
 
-    scenario 'tries to give an answer', js: true do
+    scenario 'tries to give an answer' do
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer body'
       click_on 'Give answer'
@@ -23,14 +23,14 @@ feature 'User can create answer', '
       expect(page).to have_content 'Answer body'
     end
 
-    scenario 'tries to give an answer with errors', js: true do
+    scenario 'tries to give an answer with errors' do
       click_on 'Give answer'
 
       expect(page).to have_content "Title can't be blank"
     end
   end
 
-  scenario 'Unauthenticated user tries to give an answer', js: true do
+  scenario 'Unauthenticated user tries to give an answer' do
     visit question_path(question)
 
     click_on 'Give answer'

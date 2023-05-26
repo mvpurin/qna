@@ -3,6 +3,8 @@ class Question < ApplicationRecord
   belongs_to :best_answer, class_name: 'Answer', foreign_key: 'best_answer_id', optional: true
   belongs_to :user
 
+  has_one_attached :file
+
   validates :title, :body, presence: true
 
   def other_answers

@@ -4,6 +4,10 @@ table
       td= @question.title
     tr
       td= @question.body
+    tr
+      td 
+        - if @question.file.attached?
+          = link_to @question.file.filename.to_s, url_for(@question.file)
   tbody
     tr
       td.answers

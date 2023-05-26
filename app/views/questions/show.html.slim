@@ -1,17 +1,30 @@
-h1= @question.title
-p= @question.body
-
-- if user_signed_in? && current_user.id == @question.user_id
-  = link_to 'Delete question', question_path(@question), method: :delete
-
-= render @question.answers
-
-h2 Create new answer
-.answer-errors
-  = render 'shared/errors', resource: @answer
-= form_with model: [@question, @question.answers.new], local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Give answer'
+table
+  thead
+    tr
+      td= @question.title
+    tr
+      td= @question.body
+  tbody
+    tr
+      td.answers
+        - if @question.best_answer
+          = render @best_answer
+          = render @other_answers
+        - else 
+          = render @question.answers
+    tr 
+      th Add new answer 
+    tr 
+      td 
+        .answer-errors
+          = render 'shared/errors', resource: @answer
+    tr 
+      td.new 
+        = form_with model: [@question, @question.answers.new], class: 'new-answer', local: false do |f|
+          = f.label :title
+          = f.text_field :title
+          = f.label :body
+          = f.text_area :body
+          = f.submit 'Give answer'
+    tr 
+      td= link_to 'All questions', questions_path

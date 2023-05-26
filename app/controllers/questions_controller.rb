@@ -6,13 +6,16 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    return unless @question.best_answer
+
+    @best_answer = @question.best_answer
+    @other_answers = @question.other_answers
+  end
 
   def new
     @question = current_user.questions.new
   end
-
-  def edit; end
 
   def create
     @question = current_user.questions.new(question_params)
@@ -25,11 +28,8 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
-    end
+    @question.update(question_params)
+    @questions = Question.all
   end
 
   def destroy
@@ -48,6 +48,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :best_answer_id)
   end
 end

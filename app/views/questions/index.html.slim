@@ -1,2 +1,11 @@
-p= link_to 'Ask question', new_question_path
-= render @questions
+table 
+  thead List of questions 
+  tbody 
+    tr 
+      td= link_to 'Ask question', new_question_path
+    tr
+      td.questions
+        = render @questions
+    tr 
+      td.question-errors
+        = render 'shared/errors', resource: @question

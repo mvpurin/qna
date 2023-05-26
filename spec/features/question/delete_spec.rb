@@ -13,7 +13,7 @@ feature 'User can delete a question', '
   scenario 'Authenticated user tries to delete his question' do
     sign_in(user_1)
 
-    visit question_path(question_1)
+    visit questions_path
 
     click_on 'Delete question'
 

@@ -19,19 +19,18 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let!(:answer_1) { create(:answer, question: question, user: user) }
+    let!(:answer_2) { create(:answer, question: question, user: user) }
+    let!(:answer_3) { create(:answer, question: question, user: user) }
+
+    before { question.update(best_answer: answer_1) }
+
     before { get :show, params: { id: question } }
 
-    # let!(:answer_1) { create(:answer, question: question, user: user) }
-    # let!(:answer_2) { create(:answer, question: question, user: user) }
-
-    it 'assings the requested question to @question' do
-      expect(assigns(:best_answer)).to eq question.best_answer
+    it 'assigns best_answer and other_answers to @best_answer and @other_answers' do
+      expect(assigns(:best_answer)).to eq answer_1
+      expect(assigns(:other_answers)).to eq [answer_2, answer_3]
     end
-
-    # it 'assigns best_answer and other_answers to @best_answer and @other_answers' do
-    #   expect(assigns(:best_answer)).to eq question.best_answer
-    #   expect(assigns(:other_answers). to eq :other_answers)
-    # end
 
     it 'renders show view' do
       expect(response).to render_template :show
@@ -84,17 +83,16 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-      # it 'assings the requested question to @question' do
-      #   patch :update, params: { id: question, question: attributes_for(:question) }
-      #   expect(assigns(:question)).to eq question
-      # end
+      it 'assings the requested question to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(assigns(:question)).to eq question
+      end
 
       it 'changes question attributes' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
-        question.reload
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        expect(question.reload.title).to eq 'new title'
+        expect(question.reload.body).to eq 'new body'
       end
 
       it 'renders update view' do

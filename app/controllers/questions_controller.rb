@@ -10,7 +10,7 @@ class QuestionsController < ApplicationController
     return unless @question.best_answer
 
     @best_answer = @question.best_answer
-    @other_answers = @question.answers.where.not(id: @best_answer.id)
+    @other_answers = @question.other_answers
   end
 
   def new

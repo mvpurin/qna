@@ -4,4 +4,8 @@ class Question < ApplicationRecord
   belongs_to :user
 
   validates :title, :body, presence: true
+
+  def other_answers
+    answers.where.not(id: best_answer.id)
+  end
 end

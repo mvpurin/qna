@@ -22,9 +22,8 @@ feature 'User can edit his question', '
     end
 
     scenario 'tries to edit his question' do
-      click_on 'Edit question'
-
       within "div#question-#{question.id}" do
+        click_on 'Edit question'
         fill_in 'Title', with: 'edited question title'
         fill_in 'Body', with: 'edited question body'
         click_on 'Save'
@@ -37,9 +36,8 @@ feature 'User can edit his question', '
     end
 
     scenario 'tries to edit his question with errors' do
-      click_on 'Edit question'
-
       within "div#question-#{question.id}" do
+        click_on 'Edit question'
         fill_in 'Title', with: ''
         click_on 'Save'
       end
@@ -48,11 +46,20 @@ feature 'User can edit his question', '
     end
 
     scenario "tries to edit other user's question" do
-      visit questions_path
-
       within "div#question-#{question2.id}" do
         expect(page).to_not have_content 'Edit question'
       end
+    end
+
+    scenario 'tries to add files to question' do
+      within "div#question-#{question.id}" do
+        click_on 'Edit question'
+        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+        click_on 'Save'
+      end
+
+      visit question_path(question)
+      expect(page).to have_link 'rails_helper.rb'
     end
   end
 end

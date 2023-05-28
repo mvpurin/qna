@@ -26,10 +26,16 @@ table
     tr 
       td.new 
         = form_with model: [@question, @question.answers.new], class: 'new-answer', local: false do |f|
-          = f.label :title
-          = f.text_field :title
-          = f.label :body
-          = f.text_area :body
-          = f.submit 'Give answer'
+          p 
+            = f.label :title
+            = f.text_field :title
+          p  
+            = f.label :body
+            = f.text_area :body
+          p
+            = f.label :files
+            = f.file_field :files, multiple: true
+          p
+            = f.submit 'Give answer'
     tr 
       td= link_to 'All questions', questions_path

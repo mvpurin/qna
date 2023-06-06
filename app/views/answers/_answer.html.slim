@@ -3,7 +3,8 @@ div id="answer-#{answer.id}"
     body
       - if answer.persisted?
         tr
-          td= answer.title 
+          td= answer.title
+        tr  
           td= answer.body
         tr  
           td 
@@ -21,9 +22,17 @@ div id="answer-#{answer.id}"
               = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
           td
             = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-              = f.label :title
-              = f.text_field :title
-              = f.label :body
-              = f.text_area :body
-              = f.submit 'Save'
+              p
+                = f.label :title
+                = f.text_field :title
+              p
+                = f.label :body
+                = f.text_area :body
+              p
+                = f.label :files
+                = f.file_field :files, multiple: true
+              p
+                = f.submit 'Save'    
+hr 
+      
 

@@ -11,6 +11,8 @@ table
             p= link_to file.filename.to_s, url_for(file)
   tbody
     tr
+      th Answers
+    tr
       td.answers
         - if @question.best_answer
           = render @best_answer

@@ -8,3 +8,4 @@ import "jquery_ujs"
 
 import "utilities/edit_answer"
 import "utilities/edit_question"
+import "utilities/delete_file"

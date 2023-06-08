@@ -63,7 +63,7 @@ feature 'User can edit his question', '
       expect(page).to have_link 'spec_helper.rb'
     end
 
-    scenario 'tries to delete atached files' do
+    scenario 'tries to delete attached files' do
       within "div#question-#{question.id}" do
         click_on 'Edit question'
         attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"

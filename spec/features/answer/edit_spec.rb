@@ -59,9 +59,20 @@ feature 'User can edit his answer', '
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
       end
-      
+
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'tries to delete attached files' do
+      within "div#answer-#{answer.id}" do
+        click_on 'Edit'
+        attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+        click_on 'Save'
+
+        click_on 'Delete file'
+        expect(page).to_not have_link 'spec_helper.rb'
+      end
     end
   end
 end

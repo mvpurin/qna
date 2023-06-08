@@ -6,11 +6,13 @@ div id="answer-#{answer.id}"
           td= answer.title
         tr  
           td= answer.body
-        tr  
-          td 
-            - if answer.files.attached?
-              - answer.files.each do |file|
-                p= link_to file.filename.to_s, url_for(file)
+        - if answer.files.attached?
+          - answer.files.each do |file|
+            tr.files id="file-#{file.id}"
+             td= link_to file.filename.to_s, url_for(file)
+             td
+              -if current_user.id == file.record.user_id  
+                = link_to 'Delete file', file_path(file), method: :delete, class: 'delete-file-link', data: { file_id: file.id }, remote: true
         tr        
           td 
             - if user_signed_in?

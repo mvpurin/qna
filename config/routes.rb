@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :answers, only: %i[new create destroy update]
   end
 
-  resources :files
+  resources :files, only: :destroy
 
   root to: 'questions#index'
 end

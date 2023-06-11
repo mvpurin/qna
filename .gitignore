@@ -34,3 +34,6 @@
 /rubocop_pre_commit_hook.rb
 /.byebug_history
 /.vscode
+
+# Ignore environment variables
+.env

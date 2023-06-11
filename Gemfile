@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'dotenv-rails', groups: %i[development test]
+
 ruby '3.0.2'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -53,6 +55,8 @@ gem 'sassc-rails'
 gem 'rubocop', require: false
 
 gem 'byebug'
+
+gem 'aws-sdk-s3', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -5,6 +5,7 @@ class FilesController < ApplicationController
   def show; end
 
   def destroy
+    # byebug
     @file.purge if @file.record.user_id == current_user.id
   end
 

@@ -70,6 +70,8 @@ feature 'User can edit his answer', '
         attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
         click_on 'Save'
 
+        refresh
+
         click_on 'Delete file'
         expect(page).to_not have_link 'spec_helper.rb'
       end

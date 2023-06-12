@@ -9,8 +9,8 @@ pin '@rails/ujs', to: 'https://ga.jspm.io/npm:@rails/ujs@7.0.4-3/lib/assets/comp
 
 pin 'jquery', to: 'jquery.min.js', preload: true
 pin 'jquery_ujs', to: 'jquery_ujs.js', preload: true
-pin "popper", to: "popper.js", preload: true
-pin "bootstrap", to: "bootstrap.min.js", preload: true
+pin 'popper', to: 'popper.js', preload: true
+pin 'bootstrap', to: 'bootstrap.min.js', preload: true
 
 pin_all_from 'app/javascript/utilities', under: 'utilities'
 

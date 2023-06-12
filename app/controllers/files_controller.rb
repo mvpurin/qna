@@ -5,7 +5,6 @@ class FilesController < ApplicationController
   def show; end
 
   def destroy
-    # byebug
     @file.purge if @file.record.user_id == current_user.id
   end
 
@@ -13,8 +12,5 @@ class FilesController < ApplicationController
 
   def find_file
     @file = ActiveStorage::Attachment.find_by(blob_id: params[:id])
-    model_class = @file.record.class
-    model_instance = model_class.find_by(id: @file.record.id)
-    params[:model_instance] = model_instance
   end
 end

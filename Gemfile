@@ -46,6 +46,7 @@ gem 'bootsnap', require: false
 gem 'devise'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem "bootstrap"
 # Use Sass to process CSS
 gem 'sassc-rails'
 

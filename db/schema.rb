@@ -81,6 +81,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_526_094_333) do
   add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
   add_foreign_key 'answers', 'questions'
   add_foreign_key 'answers', 'users'
-  add_foreign_key 'questions', 'answers', column: 'best_answer_id'
+  add_foreign_key 'questions', 'answers', column: 'best_answer_id', on_delete: :nullify
   add_foreign_key 'questions', 'users'
 end

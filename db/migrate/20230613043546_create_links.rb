@@ -4,7 +4,7 @@ class CreateLinks < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :url
 
-      t.references :question, foreign_key: true
+      t.references :linkable, polymorphic: true
 
       t.timestamps
     end

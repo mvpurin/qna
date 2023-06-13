@@ -5,19 +5,19 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
 
-  describe 'GET #new' do
-    before { login(user) }
+  # describe 'GET #new' do
+  #   before { login(user) }
 
-    before { get :new, params: { question_id: question, user_id: user } }
+  #   before { get :new, params: { question_id: question, user_id: user } }
 
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
+  #   it 'assigns a new Answer to @answer' do
+  #     expect(assigns(:answer)).to be_a_new(Answer)
+  #   end
 
-    it 'renders questions/show view' do
-      expect(response).to render_template :new
-    end
-  end
+  #   it 'renders questions/show view' do
+  #     expect(response).to render_template :new
+  #   end
+  # end
 
   describe 'POST #create' do
     before { login(user) }

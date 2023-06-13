@@ -3,10 +3,6 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[index new create]
   before_action :find_answer, only: %i[show destroy update]
 
-  def new
-    @answer = @question.answers.new
-  end
-
   def create
     @answer = @question.answers.create(answer_params)
   end
@@ -33,6 +29,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     params[:answer][:user_id] = current_user.id
-    params.require(:answer).permit(:title, :body, :user_id, files: [])
+    params.require(:answer).permit(:title, :body, :user_id, files: [], links_attributes: %i[name url])
   end
 end

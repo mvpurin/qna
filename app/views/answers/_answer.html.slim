@@ -34,6 +34,12 @@ div id="answer-#{answer.id}"
                 = f.label :files
                 = f.file_field :files, multiple: true, direct_upload: true
               p
-                = f.submit 'Save'    
+                = f.submit 'Save'
+          tr
+            th Links
+          - answer.links.each do |link|
+            tr.links id="link-#{link.id}"
+              td
+                = link_to link.name, link.url  
 hr 
 

@@ -27,6 +27,18 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :show, params: { id: question } }
 
+    it 'assigns the requested question to @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer to question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns a new link to @answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'assigns best_answer and other_answers to @best_answer and @other_answers' do
       expect(assigns(:best_answer)).to eq answer_1
       expect(assigns(:other_answers)).to eq [answer_2, answer_3]

@@ -12,6 +12,12 @@ table
           td
             - if current_user.id == file.record.user_id  
               = link_to 'Delete file', file_path(file), method: :delete, remote: true
+    tr
+      th Links
+    - @question.links.each do |link|
+      tr.links id="link-#{link.id}"
+        td
+          = link_to link.name, link.url
   tbody
     tr
       th Answers

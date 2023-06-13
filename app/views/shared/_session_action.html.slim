@@ -1,5 +1,6 @@
-- if user_signed_in?
-  = link_to 'Sign out', destroy_user_session_path, method: :delete
-
-- if !user_signed_in?
-  = link_to 'Sign in', new_user_session_path
+.nav class="navbar navbar-light bg-light"
+  .span class="navbar-text"
+    - if user_signed_in?
+      = link_to 'Sign out', destroy_user_session_path, method: :delete
+    - if !user_signed_in?
+      = link_to 'Sign in', new_user_session_path

@@ -9,6 +9,7 @@ import "popper"
 import "bootstrap"
 
 import "@rails/activestorage"
+import "@nathanvda/cocoon"
 
 // Custom JS files
 import "utilities/edit_answer"

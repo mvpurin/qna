@@ -6,13 +6,11 @@ class Link < ApplicationRecord
   validates :name, :url, presence: true
   validates :url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
 
-  def gist
-    if self.url[0..23].match?("https://gist.github.com/")
-      url = self.url.split(/^https:\/\/gist.github.com\/[aA-zZ0-9]+\//).last
+  def gist?
+    self.url[0..23].match?("https://gist.github.com/")
+  end
 
-      response = Octokit.gist(url)
-      response.description
-      response.files.first[1].content
-    end
+  def gist_url
+    self.url.split('/').last
   end
 end

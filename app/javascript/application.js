@@ -11,6 +11,8 @@ import "bootstrap"
 import "@rails/activestorage"
 import "@nathanvda/cocoon"
 
+import GistClient from "gist-client"
+
 // Custom JS files
 import "utilities/edit_answer"
 import "utilities/edit_question"

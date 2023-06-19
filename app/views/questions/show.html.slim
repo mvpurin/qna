@@ -18,16 +18,20 @@ table
       tr.links id="link-#{link.id}"
       - if link.gist?
         javascript:
-          gistClient = new GistClient
-            .getOneById("#{link.gist_url}")
-            .then(response => { 
-              for (let file in response.files) { 
-                let currentLink = document.quesrySelector('[id="link-#{link.id}"]')
-                currentLink.innerText = response.files[file].content
-               }
-             }).catch(err => { 
+          document.addEventListener('DOMContentLoaded', function () {
+            gistClient
+              .setToken("#{ENV['GIST_TOKEN']}")
+              .getOneById("#{link.gist_url}")
+              .then(response => {
+                for (let file in response.files) {
+                  let currentLink = document.querySelector('[id="link-#{link.id}"]')
+                  currentLink.innerText = response.files[file].content
+                }
+              }).catch(err => {
               console.log(err)
-              })
+            })
+          })
+
       -else  
         td
           = link_to link.name, link.url

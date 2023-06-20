@@ -12,6 +12,8 @@ import "@rails/activestorage"
 import "@nathanvda/cocoon"
 
 import GistClient from "gist-client"
+const gistClient = new GistClient()
+window.gistClient = gistClient
 
 // Custom JS files
 import "utilities/edit_answer"

@@ -8,6 +8,7 @@ feature 'User can edit his question', '
   given!(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:question2) { create(:question, user: user2) }
+  given!(:wiki_url) { 'https://wikipedia.org' }
 
   scenario 'Unauthenticated user tries to edit answer' do
     visit questions_path
@@ -26,6 +27,7 @@ feature 'User can edit his question', '
         click_on 'Edit question'
         fill_in 'Title', with: 'edited question title'
         fill_in 'Body', with: 'edited question body'
+
         click_on 'Save'
 
         expect(page).to_not have_content question.body
@@ -74,6 +76,42 @@ feature 'User can edit his question', '
       click_on 'Delete file'
 
       expect(page).to_not have_link 'rails_helper.rb'
+    end
+
+    scenario 'tries to add links to question' do
+      within "div#question-#{question.id}" do
+        click_on 'Edit question'
+        click_on 'add link'
+
+        within all('.nested-fields').last do
+          fill_in 'Link name', with: 'Wikipedia'
+          fill_in 'Url', with: wiki_url
+        end
+
+        click_on 'Save'
+        visit question_path(question)
+
+        expect(page).to have_link 'Wikipedia', href: wiki_url
+      end
+    end
+
+    scenario 'tries to delete links from question' do
+      within "div#question-#{question.id}" do
+        click_on 'Edit question'
+        click_on 'add link'
+
+        within all('.nested-fields').last do
+          fill_in 'Link name', with: 'Wikipedia'
+          fill_in 'Url', with: wiki_url
+        end
+
+        click_on 'Save'
+        visit question_path(question)
+
+        click_on 'Delete link'
+
+        expect(page).to_not have_link 'Wikipedia'
+      end
     end
   end
 end

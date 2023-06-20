@@ -16,24 +16,25 @@ table
       th Links
     - @question.links.each do |link|
       tr.links id="link-#{link.id}"
-      - if link.gist?
-        javascript:
-          document.addEventListener('DOMContentLoaded', function () {
-            gistClient
-              .setToken("#{ENV['GIST_TOKEN']}")
-              .getOneById("#{link.gist_url}")
-              .then(response => {
-                for (let file in response.files) {
-                  let currentLink = document.querySelector('[id="link-#{link.id}"]')
-                  currentLink.innerText = response.files[file].content
-                }
-              }).catch(err => {
-              console.log(err)
-            })
-          })
-      - else  
-        td
-          = link_to link.name, link.url
+        - if link.gist?
+          td
+            javascript:
+              document.addEventListener('DOMContentLoaded', function () {
+                gistClient
+                  .setToken("#{ENV['GIST_TOKEN']}")
+                  .getOneById("#{link.gist_url}")
+                  .then(response => {
+                    for (let file in response.files) {
+                      let currentLink = document.querySelector('[id="link-#{link.id}"]')
+                      currentLink.firstChild.innerText = response.files[file].content
+                    }
+                  }).catch(err => {
+                  console.log(err)
+                })
+              })
+        - else  
+          td= link_to link.name, link.url
+        td= link_to "Delete link", link_path(link), method: :delete, remote: true
   tbody
     tr
       th Answers
@@ -64,13 +65,11 @@ table
             = f.file_field :files, multiple: true, direct_upload: true
           p Links: 
           p 
-            =f.fields_for :links do |l|
-              p
-                = l.label :name, 'Link name'
-                = l.text_field :name
-              p 
-                = l.label :url
-                = l.text_field :url
+          .div id="links"
+            = f.fields_for :links do |link|
+              = render 'shared/link_fields', f: link
+            .links
+              = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
           p
             = f.submit 'Give answer'
     tr 

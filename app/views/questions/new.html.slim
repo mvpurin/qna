@@ -15,7 +15,7 @@ h2 Create new question
   h3 Links
   .div id="links"
     = f.fields_for :links do |link|
-      = render 'link_fields', f: link
+      = render 'shared/link_fields', f: link
     .links
-      = link_to_add_association 'add link', f, :links
+      = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
   p= f.submit 'Ask'

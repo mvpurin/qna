@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
 
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_one(:badge) }
   it { should belong_to(:user) }
   it { should belong_to(:best_answer).optional }
 

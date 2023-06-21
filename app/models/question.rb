@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
+  has_one :badge
   belongs_to :best_answer, class_name: 'Answer', foreign_key: 'best_answer_id', optional: true
   belongs_to :user
 

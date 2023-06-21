@@ -33,13 +33,36 @@ div id="answer-#{answer.id}"
               p
                 = f.label :files
                 = f.file_field :files, multiple: true, direct_upload: true
+              p 
+              .div id="links"
+                = f.fields_for :links do |link|
+                  = render 'shared/link_fields', f: link
+                .links
+                  = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
               p
                 = f.submit 'Save'
           tr
             th Links
           - answer.links.each do |link|
             tr.links id="link-#{link.id}"
-              td
-                = link_to link.name, link.url  
+              - if link.gist?
+                td
+                  javascript:
+                    document.addEventListener('DOMContentLoaded', function () {
+                      gistClient
+                        .setToken("#{ENV['GIST_TOKEN']}")
+                        .getOneById("#{link.gist_url}")
+                        .then(response => {
+                          for (let file in response.files) {
+                            let currentLink = document.querySelector('[id="link-#{link.id}"]')
+                            currentLink.firstChild.innerText = response.files[file].content
+                          }
+                        }).catch(err => {
+                        console.log(err)
+                      })
+                    })
+              - else  
+                td= link_to link.name, link.url
+              td= link_to "Delete link", link_path(link), method: :delete, remote: true
 hr 
 

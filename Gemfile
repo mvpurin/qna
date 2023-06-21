@@ -56,8 +56,8 @@ gem 'sassc-rails'
 gem 'aws-sdk-s3', require: false
 gem 'byebug'
 gem 'cocoon'
+gem 'octokit', '~> 5.0'
 gem 'rubocop', require: false
-gem "octokit", "~> 5.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

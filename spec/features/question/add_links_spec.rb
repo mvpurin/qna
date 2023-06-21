@@ -27,7 +27,7 @@ feature 'User can add links to question', "
     end
 
     click_on 'Ask'
- 
+
     expect(page).to have_content 'QNA gist'
     expect(page).to have_link 'Wikipedia', href: wiki_url
   end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'User can edit his question', '
   As an authenticated user
-  I wuold like to edit my question
+  I would like to edit my question
 ' do
   given!(:user) { create(:user) }
   given!(:user2) { create(:user) }
@@ -105,7 +105,6 @@ feature 'User can edit his question', '
       click_on 'Delete link'
 
       expect(page).to_not have_link 'Wikipedia'
-      save_and_open_page
     end
   end
 end

@@ -37,12 +37,12 @@ feature 'User can edit his answer', '
         fill_in 'Link name', with: 'Wikipedia'
         fill_in 'Url', with: wiki_url
 
-        # click_on 'add link'
+        click_on 'add link'
 
-        # within all('.nested-fields').last do
-        #   fill_in 'Link name', with: 'gist'
-        #   fill_in 'Url', with: gist_url
-        # end
+        within all('.nested-fields').last do
+          fill_in 'Link name', with: 'gist'
+          fill_in 'Url', with: gist_url
+        end
 
         click_on 'Save'
 
@@ -52,9 +52,8 @@ feature 'User can edit his answer', '
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'Wikipedia', href: wiki_url
-        # expect(page).to have_content 'QNA gist'
+        expect(page).to have_content 'QNA gist'
         expect(page).to_not have_selector 'textarea'
-        save_and_open_page
       end
     end
 

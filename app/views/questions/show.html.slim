@@ -4,6 +4,9 @@ table
       td= @question.title
     tr
       td= @question.body
+    - if !@question.badge.nil?
+      td 
+        em Has a badge for best answer!
     - if @question.files.attached?
       - @question.files.each do |file|
         tr.files id="file-#{file.id}"
@@ -13,6 +16,7 @@ table
             - if current_user.id == file.record.user_id  
               = link_to 'Delete file', file_path(file), method: :delete, remote: true
     tr
+    - if @question.links.any?
       th Links
     - @question.links.each do |link|
       tr.links id="link-#{link.id}"
@@ -34,7 +38,8 @@ table
               })
         - else  
           td= link_to link.name, link.url
-        td= link_to "Delete link", link_path(link), method: :delete, remote: true
+        - if link.linkable.user_id == current_user.id
+          td= link_to "Delete link", link_path(link), method: :delete, remote: true
   tbody
     tr
       th Answers

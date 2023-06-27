@@ -14,8 +14,8 @@ div id="answer-#{answer.id}"
               -if current_user.id == file.record.user_id  
                 = link_to 'Delete file', file_path(file), method: :delete, remote: true
         tr        
-          td 
-            - if user_signed_in?
+          - if user_signed_in? && answer.question.user_id == current_user.id
+            td
               = link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
           - if user_signed_in? && current_user.id == answer.user_id
             td
@@ -42,6 +42,7 @@ div id="answer-#{answer.id}"
               p
                 = f.submit 'Save'
           tr
+          - if answer.links.any?
             th Links
           - answer.links.each do |link|
             tr.links id="link-#{link.id}"

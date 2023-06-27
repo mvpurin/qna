@@ -1,0 +1,14 @@
+table
+  thead 
+    tr Rewards list 
+  tbody
+    - if !@user.badges.nil?
+      tr
+        th Reward title 
+        th Reward 
+        th Question title
+      - @user.badges.each do |badge|
+        tr
+          td= badge.title
+          td= image_tag badge.file.representation(resize_to_limit: [100, 100])
+          td= badge.question.title

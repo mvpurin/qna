@@ -55,7 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_070817) do
 
   create_table "badges", force: :cascade do |t|
     t.string "title"
-    t.text "description"
     t.bigint "user_id"
     t.bigint "question_id"
     t.datetime "created_at", null: false

@@ -47,21 +47,8 @@ div id="answer-#{answer.id}"
           - answer.links.each do |link|
             tr.links id="link-#{link.id}"
               - if link.gist?
-                td
-                  javascript:
-                    document.addEventListener('DOMContentLoaded', function () {
-                      gistClient
-                        .setToken("#{ENV['GIST_TOKEN']}")
-                        .getOneById("#{link.gist_url}")
-                        .then(response => {
-                          for (let file in response.files) {
-                            let currentLink = document.querySelector('[id="link-#{link.id}"]')
-                            currentLink.firstChild.innerText = response.files[file].content
-                          }
-                        }).catch(err => {
-                        console.log(err)
-                      })
-                    })
+                td id="gist-link"
+
               - else  
                 td= link_to link.name, link.url
               td= link_to "Delete link", link_path(link), method: :delete, remote: true

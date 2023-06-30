@@ -21,21 +21,9 @@ table
     - @question.links.each do |link|
       tr.links id="link-#{link.id}"
         - if link.gist?
-          td
+          td id="gist-link"
             javascript:
-              document.addEventListener('DOMContentLoaded', function () {
-                gistClient
-                  .setToken("#{ENV['GIST_TOKEN']}")
-                  .getOneById("#{link.gist_url}")
-                  .then(response => {
-                    for (let file in response.files) {
-                      let currentLink = document.querySelector('[id="link-#{link.id}"]')
-                      currentLink.firstChild.innerText = response.files[file].content
-                    }
-                  }).catch(err => {
-                  console.log(err)
-                })
-              })
+
         - else  
           td= link_to link.name, link.url
         - if link.linkable.user_id == current_user.id

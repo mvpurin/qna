@@ -12,10 +12,32 @@ import "@rails/activestorage"
 import "@nathanvda/cocoon"
 
 import GistClient from "gist-client"
-export const gistClient = new GistClient()
+const gistClient = new GistClient()
 window.gistClient = gistClient
 
 // Custom JS files
 import "utilities/edit_answer"
 import "utilities/edit_question"
-import "utilities/gist_loader"
+
+function gistLoader(gist_url, id) {
+  gistClient
+    .setToken("#{ENV['GIST_TOKEN']}")
+    .getOneById(gist_url)
+    .then(response => {
+      for (let file in response.files) {
+        let currentLink = document.getElementById('link-' + id)
+        currentLink.firstChild.innerText = response.files[file].content
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+};
+
+let gistLinks = document.getElementsByClassName('gist-link');
+if (gistLinks) {
+  for (let i = 0; i < gistLinks.length; i++) {
+    let url = gistLinks[i].getAttribute("data-gist-url");
+    let id = gistLinks[i].getAttribute("data-gist-id");
+    gistLoader(url, id);
+  };
+}

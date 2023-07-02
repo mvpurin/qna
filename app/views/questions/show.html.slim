@@ -21,7 +21,7 @@ table
     - @question.links.each do |link|
       tr.links id="link-#{link.id}"
         - if link.gist?
-          td id="gist-link"
+          td id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
             javascript:
 
         - else  

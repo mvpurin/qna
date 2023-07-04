@@ -45,7 +45,6 @@ feature 'User can edit his answer', '
         end
 
         click_on 'Save'
-        save_and_open_page
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer title'

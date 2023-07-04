@@ -19,7 +19,7 @@ window.gistClient = gistClient
 import "utilities/edit_answer"
 import "utilities/edit_question"
 
-window.gistLoader = function (gist_url, id) {
+window.gistLoader = function gistLoader(gist_url, id) {
   gistClient
     .setToken(document.head.querySelector("meta[name=gist_token]").content)
     .getOneById(gist_url)

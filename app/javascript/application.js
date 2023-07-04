@@ -19,9 +19,9 @@ window.gistClient = gistClient
 import "utilities/edit_answer"
 import "utilities/edit_question"
 
-function gistLoader(gist_url, id) {
+window.gistLoader = function gistLoader(gist_url, id) {
   gistClient
-    .setToken("#{ENV['GIST_TOKEN']}")
+    .setToken(document.head.querySelector("meta[name=gist_token]").content)
     .getOneById(gist_url)
     .then(response => {
       for (let file in response.files) {
@@ -33,11 +33,15 @@ function gistLoader(gist_url, id) {
     })
 };
 
-let gistLinks = document.getElementsByClassName('gist-link');
-if (gistLinks) {
-  for (let i = 0; i < gistLinks.length; i++) {
-    let url = gistLinks[i].getAttribute("data-gist-url");
-    let id = gistLinks[i].getAttribute("data-gist-id");
-    gistLoader(url, id);
-  };
+window.loadGists = function loadGists(){
+  let gistLinks = document.getElementsByClassName('gist-link');
+  if (gistLinks) {
+    for (let i = 0; i < gistLinks.length; i++) {
+      let url = gistLinks[i].getAttribute("data-gist-url");
+      let id = gistLinks[i].getAttribute("data-gist-id");
+      gistLoader(url, id);
+    };
+  }
 }
+
+loadGists();

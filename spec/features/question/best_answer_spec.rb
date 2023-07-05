@@ -5,9 +5,11 @@ feature 'User can mark an answer as the best one', '
    I would like to mark an answer to a question as the best one
 ' do
   given(:user) { create(:user) }
+  given(:user_2) { create(:user) }
   given(:question) { create(:question, user: user) }
   given!(:answer_1) { create(:answer, title: 'answer_title_1', question: question, user: user) }
-  given!(:answer_2) { create(:answer, title: 'answer_title_2', question: question, user: user) }
+  given!(:answer_2) { create(:answer, title: 'answer_title_2', question: question, user: user_2) }
+  given!(:badge) { create(:badge, question: question, user: user_2) }
 
   scenario 'Authenticated user tries to mark an answer as the best one', js: true do
     sign_in(user)

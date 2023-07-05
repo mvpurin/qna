@@ -14,8 +14,8 @@ div id="answer-#{answer.id}"
               -if current_user.id == file.record.user_id  
                 = link_to 'Delete file', file_path(file), method: :delete, remote: true
         tr        
-          td 
-            - if user_signed_in?
+          - if user_signed_in? && answer.question.user_id == current_user.id
+            td
               = link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
           - if user_signed_in? && current_user.id == answer.user_id
             td
@@ -33,7 +33,25 @@ div id="answer-#{answer.id}"
               p
                 = f.label :files
                 = f.file_field :files, multiple: true, direct_upload: true
+              p 
+              .div id="links"
+                = f.fields_for :links do |link|
+                  = render 'shared/link_fields', f: link
+                .links
+                  = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
               p
-                = f.submit 'Save'    
+                = f.submit 'Save'
+          tr
+          - if answer.links.any?
+            th Links
+          - answer.links.each do |link|
+            tr.links id="link-#{link.id}"
+              - if link.gist?
+                td id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
+                  javascript: 
+
+              - else  
+                td= link_to link.name, link.url
+              td= link_to "Delete link", link_path(link), method: :delete, remote: true
 hr 
 

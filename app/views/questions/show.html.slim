@@ -4,6 +4,9 @@ table
       td= @question.title
     tr
       td= @question.body
+    - if !@question.badge.nil?
+      td 
+        em Has a badge for best answer!
     - if @question.files.attached?
       - @question.files.each do |file|
         tr.files id="file-#{file.id}"
@@ -12,6 +15,19 @@ table
           td
             - if current_user.id == file.record.user_id  
               = link_to 'Delete file', file_path(file), method: :delete, remote: true
+    tr
+    - if @question.links.any?
+      th Links
+    - @question.links.each do |link|
+      tr.links id="link-#{link.id}"
+        - if link.gist?
+          td id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
+            javascript:
+
+        - else  
+          td= link_to link.name, link.url
+        - if link.linkable.user_id == current_user.id
+          td= link_to "Delete link", link_path(link), method: :delete, remote: true
   tbody
     tr
       th Answers
@@ -30,7 +46,7 @@ table
           = render 'shared/errors', resource: @answer
     tr 
       td.new 
-        = form_with model: [@question, @question.answers.new], class: 'new-answer', local: false do |f|
+        = form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
           p 
             = f.label :title
             = f.text_field :title
@@ -40,6 +56,13 @@ table
           p
             = f.label :files
             = f.file_field :files, multiple: true, direct_upload: true
+          p Links: 
+          p 
+          .div id="links"
+            = f.fields_for :links do |link|
+              = render 'shared/link_fields', f: link
+            .links
+              = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
           p
             = f.submit 'Give answer'
     tr 

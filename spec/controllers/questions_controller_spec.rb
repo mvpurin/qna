@@ -27,6 +27,18 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :show, params: { id: question } }
 
+    it 'assigns the requested question to @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer to question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns a new link to @answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'assigns best_answer and other_answers to @best_answer and @other_answers' do
       expect(assigns(:best_answer)).to eq answer_1
       expect(assigns(:other_answers)).to eq [answer_2, answer_3]
@@ -44,6 +56,14 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns a new Link to @question.links' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
+    end
+
+    it 'assigns a new Badge to @question' do
+      expect(assigns(:question).badge).to be_a_new(Badge)
     end
 
     it 'renders new view' do
@@ -80,6 +100,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let!(:user_2) { create(:user) }
+    let!(:answer) { create(:answer, user: user_2, question: question) }
+    let!(:badge) { create(:badge, question: question) }
+    
     before { login(user) }
 
     context 'with valid attributes' do
@@ -93,6 +117,13 @@ RSpec.describe QuestionsController, type: :controller do
 
         expect(question.reload.title).to eq 'new title'
         expect(question.reload.body).to eq 'new body'
+      end
+
+      it 'adds best_answer_id to question and user_id to badge' do
+        patch :update, params: { id: question, question: { best_answer_id: answer } }, format: :js
+
+        expect(question.reload.best_answer_id).to eq answer.id
+        expect(question.reload.badge.user_id).to eq user_2.id
       end
 
       it 'renders update view' do

@@ -11,4 +11,17 @@ h2 Create new question
   p   
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+
+  h3 Links
+  .div id="links"
+    = f.fields_for :links do |link|
+      = render 'shared/link_fields', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+  p 
+  h3 Add badge for best answer?
+  h6 Just add an avatar for reward!
+  .badge 
+    = f.fields_for :badge do |b|
+      = b.file_field :file, direct_upload: true
   p= f.submit 'Ask'

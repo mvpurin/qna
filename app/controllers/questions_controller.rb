@@ -7,6 +7,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = @question.answers.new
+    @answer.links.new
+
     return unless @question.best_answer
 
     @best_answer = @question.best_answer
@@ -15,6 +18,8 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
+    @question.links.new
+    @question.build_badge
   end
 
   def create
@@ -30,6 +35,10 @@ class QuestionsController < ApplicationController
   def update
     @question.update(question_params)
     @questions = Question.all
+    if !params[:question][:best_answer_id].nil?
+      user = @question.answers.find(params[:question][:best_answer_id].to_i).user 
+      @question.badge.update(user_id: user.id)
+    end
   end
 
   def destroy
@@ -48,6 +57,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id, files: [])
+    params[:question][:badge_attributes][:title] = 'Best answer!' if !params[:question][:badge_attributes].nil?
+    params.require(:question).permit(:title, :body, :best_answer_id, files: [], links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
   end
 end

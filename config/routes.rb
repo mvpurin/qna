@@ -6,6 +6,13 @@ Rails.application.routes.draw do
   end
 
   resources :files, only: :destroy
+  resources :links, only: :destroy
+
+  # resources :users do
+  #   get 'rewards', on: :member
+  # end
+
+  resources :users, only: :show
 
   root to: 'questions#index'
 end

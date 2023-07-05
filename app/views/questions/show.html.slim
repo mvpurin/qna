@@ -43,10 +43,10 @@ table
     tr 
       td 
         .answer-errors
-          = render 'shared/errors', resource: @answer
+          / = render 'shared/errors', resource: @answer
     tr 
       td.new 
-        = form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
+        = form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :html } do |f|
           p 
             = f.label :title
             = f.text_field :title

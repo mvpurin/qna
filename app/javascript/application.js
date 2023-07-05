@@ -16,8 +16,8 @@ const gistClient = new GistClient()
 window.gistClient = gistClient
 
 // Custom JS files
-import "utilities/edit_answer"
-import "utilities/edit_question"
+import "utilities/answer"
+import "utilities/question"
 
 window.gistLoader = function gistLoader(gist_url, id) {
   gistClient

@@ -7,12 +7,21 @@ $(document).on('ready turbo:load', function () {
   })
 
   $('form.new-answer').off().on('ajax:success', function (e) {
-    let xhr = e.detail[2];
-    $('.answers').append(xhr.responseText);
+    let answer = e.detail[0];
+    $('.answers').append('<p>' + answer.title + '\n' + answer.body + '</p>');
   })
 
   $('form.new-answer').on('ajax:error', function (e) {
-    let xhr = e.detail[2];
-    $('.answer-errors').html(xhr.responseText);
+    let errorsMessage = document.getElementsByClassName('answer-errors');
+
+    if (errorsMessage) {
+      errorsMessage.html('');
+    };
+
+    let errors = e.detail[0];
+
+    $.each(errors, function (index, value) {
+      $('.answer-errors').append('<p>' + value + '</p >')
+    })
   })
 });

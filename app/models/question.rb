@@ -12,6 +12,10 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  def count_rating
+    self.likes - self.dislikes
+  end
+
   def other_answers
     answers.where.not(id: best_answer.id)
   end

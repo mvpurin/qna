@@ -13,7 +13,8 @@ table
           td
             = link_to file.filename.to_s, url_for(file) 
           td
-            - if current_user.id == file.record.user_id  
+            - if !current_user.nil? 
+              - if current_user.id == file.record.user_id  
               = link_to 'Delete file', file_path(file), method: :delete, remote: true
     tr
     - if @question.links.any?
@@ -26,8 +27,9 @@ table
 
         - else  
           td= link_to link.name, link.url
-        - if link.linkable.user_id == current_user.id
-          td= link_to "Delete link", link_path(link), method: :delete, remote: true
+        - if !current_user.nil?
+          - if link.linkable.user_id == current_user.id
+            td= link_to "Delete link", link_path(link), method: :delete, remote: true
   tbody
     tr
       th Answers
@@ -38,32 +40,33 @@ table
           = render @other_answers
         - else 
           = render @question.answers
-    tr 
-      th Add new answer 
-    tr 
-      td 
-        .answer-errors
-          / = render 'shared/errors', resource: @answer
-    tr 
-      td.new 
-        = form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :json } do |f|
-          p 
-            = f.label :title
-            = f.text_field :title
-          p  
-            = f.label :body
-            = f.text_area :body
-          p
-            = f.label :files
-            = f.file_field :files, multiple: true, direct_upload: true
-          p Links: 
-          p 
-          .div id="links"
-            = f.fields_for :links do |link|
-              = render 'shared/link_fields', f: link
-            .links
-              = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
-          p
-            = f.submit 'Give answer'
+    - if !current_user.nil?
+      tr 
+        th Add new answer 
+      tr 
+        td 
+          .answer-errors
+            / = render 'shared/errors', resource: @answer
+      tr 
+        td.new 
+          = form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :json } do |f|
+            p 
+              = f.label :title
+              = f.text_field :title
+            p  
+              = f.label :body
+              = f.text_area :body
+            p
+              = f.label :files
+              = f.file_field :files, multiple: true, direct_upload: true
+            p Links: 
+            p 
+            .div id="links"
+              = f.fields_for :links do |link|
+                = render 'shared/link_fields', f: link
+              .links
+                = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+            p
+              = f.submit 'Give answer'
     tr 
       td= link_to 'All questions', questions_path

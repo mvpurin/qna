@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
       if @answer.save
         format.json { render json: @answer }
       else
-        format.json do 
+        format.json do
           render json: @answer.errors.full_messages, status: :unprocessable_entity
         end
       end
@@ -40,5 +40,5 @@ class AnswersController < ApplicationController
   def answer_params
     params[:answer][:user_id] = current_user.id
     params.require(:answer).permit(:title, :body, :user_id, files: [], links_attributes: %i[id url name url _destroy])
-  end 
+  end
 end

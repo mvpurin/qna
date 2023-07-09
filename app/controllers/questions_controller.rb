@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy]
+  before_action :load_question, only: %i[show edit update destroy vote]
 
   def index
     @questions = Question.all
@@ -35,9 +35,41 @@ class QuestionsController < ApplicationController
   def update
     @question.update(question_params)
     @questions = Question.all
-    if !params[:question][:best_answer_id].nil?
-      user = @question.answers.find(params[:question][:best_answer_id].to_i).user 
-      @question.badge.update(user_id: user.id)
+
+    return if params[:question][:best_answer_id].nil?
+    user = @question.answers.find(params[:question][:best_answer_id].to_i).user
+    @question.badge.update(user_id: user.id)
+
+    return if params[:question][:vote].nil?
+
+  end
+
+  def vote
+    if current_user.id != @question.user_id
+      if current_user.voted_questions[@question.id.to_s].nil?
+        if params[:question][:vote] == "like"
+          @question.likes += 1
+          current_user.voted_questions[@question.id.to_s] = "like"
+        else
+          @question.dislikes += 1
+          current_user.voted_questions[@question.id.to_s] = "dislike"
+        end
+      end
+
+      if current_user.voted_questions[@question.id.to_s] == "like" && params[:question][:vote] == "dislike"
+        @question.likes -= 1
+        @question.dislikes += 1
+        current_user.voted_questions[@question.id.to_s] = "dislike"
+      end
+
+      if current_user.voted_questions[@question.id.to_s] == "dislike" && params[:question][:vote] == "like"
+        @question.likes += 1
+        @question.dislikes -= 1
+        current_user.voted_questions[@question.id.to_s] = "like"
+      end
+
+      @question.save
+      current_user.save
     end
   end
 
@@ -57,7 +89,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params[:question][:badge_attributes][:title] = 'Best answer!' if !params[:question][:badge_attributes].nil?
-    params.require(:question).permit(:title, :body, :best_answer_id, files: [], links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
+    params[:question][:badge_attributes][:title] = 'Best answer!' unless params[:question][:badge_attributes].nil?
+    params.require(:question).permit(:title, :body, :best_answer_id, :rating, files: [],
+                                                                     links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
   end
 end

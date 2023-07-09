@@ -8,11 +8,9 @@ Rails.application.routes.draw do
   resources :files, only: :destroy
   resources :links, only: :destroy
 
-  # resources :users do
-  #   get 'rewards', on: :member
-  # end
-
   resources :users, only: :show
+
+  get '/vote/:id', to: 'questions#vote', as: 'vote'
 
   root to: 'questions#index'
 end

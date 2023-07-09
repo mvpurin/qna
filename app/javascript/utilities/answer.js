@@ -12,16 +12,12 @@ $(document).on('ready turbo:load', function () {
   })
 
   $('form.new-answer').on('ajax:error', function (e) {
-    let errorsMessage = document.getElementsByClassName('answer-errors');
-
-    if (errorsMessage) {
-      errorsMessage.html('');
-    };
-
     let errors = e.detail[0];
 
-    $.each(errors, function (index, value) {
-      $('.answer-errors').append('<p>' + value + '</p >')
-    })
+    $('.answer-errors').html('');
+
+    for (let i = 0; i < errors.length; i++) {
+      $('.answer-errors').append('<p>' + errors[i] + '</p>');
+    }
   })
 });

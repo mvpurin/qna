@@ -7,6 +7,15 @@ div id="question-#{question.id}"
       tr
         td
           = question.body
+      tr 
+        td Rating: 
+        td= question.count_rating
+      tr
+        td
+          = link_to 'Like', vote_path(question, question: { vote: 'like' }), remote: true
+
+        td
+          = link_to 'Dislike', vote_path(question, question: { vote: 'dislike' }), remote: true
       tr    
         td
           = link_to 'See question', question_path(question)

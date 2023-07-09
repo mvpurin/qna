@@ -9,9 +9,9 @@ class Badge < ApplicationRecord
   private
 
   def validate_file_format
-    if self.file.attached? && !self.file.blob.content_type.starts_with?('image/')
-      self.file.purge
-      errors.add :image, 'has wrong format!'
-    end
+    return unless file.attached? && !file.blob.content_type.starts_with?('image/')
+
+    file.purge
+    errors.add :image, 'has wrong format!'
   end
 end

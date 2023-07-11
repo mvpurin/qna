@@ -4,11 +4,12 @@ $(document).on('ready turbo:load', function () {
     $(this).hide();
     var questionId = $(this).data('questionId');
     $('form#edit-question-' + questionId).removeClass('hidden');
-  })
+  });
 
-  $('.voting').off().on('ajax:success', function (e) {
-    console.log(e);
-    let rating = e.detail[0];
-    $('.rating').html('Rating: ' + rating);
-  })
+  $('.questions').off().on('ajax:success', function (e) {
+    let instance = e.detail[0];
+    let id = instance.id;
+    let rating = instance.likes - instance.dislikes;
+    $('#rating-' + id).html('Rating: ' + rating);
+  });
 });

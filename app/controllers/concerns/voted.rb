@@ -19,7 +19,7 @@ module Voted
 
       @instance.save
 
-      format.json { render json: @instance.rating }
+      format.json { render json: @instance}
     end
   end
 
@@ -41,7 +41,7 @@ module Voted
 
       @instance.save
 
-      format.json { render json: @instance.rating }
+      format.json { render json: @instance }
     end
   end
 

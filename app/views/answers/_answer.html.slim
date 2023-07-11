@@ -15,7 +15,7 @@ div id="answer-#{answer.id}"
                 = link_to 'Delete file', file_path(file), method: :delete, remote: true
 
         tr
-          td.rating= "Rating: #{answer.rating}"
+          td id="rating-#{answer.id}" = "Rating: #{answer.rating}"
         tr.voting
           td
             = link_to 'Like', vote_for_answer_path(answer, question: { vote: 'like' }), remote: true

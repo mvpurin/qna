@@ -8,7 +8,7 @@ div id="question-#{question.id}"
         td
           = question.body
       tr
-        td.rating= "Rating: #{question.rating}"
+        td id="rating-#{question.id}" = "Rating: #{question.rating}"
       tr.voting
         td
           = link_to 'Like', vote_for_question_path(question, question: { vote: 'like' }), remote: true

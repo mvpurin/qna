@@ -1,16 +1,20 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :questions, shallow: true do
-    resources :answers, only: %i[new create destroy update]
+  concern :votable do
+    member do
+      get :vote_for, :vote_against
+    end
+  end
+
+  resources :questions, concerns: %i[votable], shallow: true do
+    resources :answers, only: %i[new create destroy update], concerns: %i[votable]
   end
 
   resources :files, only: :destroy
   resources :links, only: :destroy
 
   resources :users, only: :show
-
-  get '/vote/:id', to: 'questions#vote', as: 'vote'
 
   root to: 'questions#index'
 end

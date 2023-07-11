@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy vote]
 
@@ -42,35 +44,6 @@ class QuestionsController < ApplicationController
 
     return if params[:question][:vote].nil?
 
-  end
-
-  def vote
-    if current_user.id != @question.user_id
-      if current_user.voted_questions[@question.id.to_s].nil?
-        if params[:question][:vote] == "like"
-          @question.likes += 1
-          current_user.voted_questions[@question.id.to_s] = "like"
-        else
-          @question.dislikes += 1
-          current_user.voted_questions[@question.id.to_s] = "dislike"
-        end
-      end
-
-      if current_user.voted_questions[@question.id.to_s] == "like" && params[:question][:vote] == "dislike"
-        @question.likes -= 1
-        @question.dislikes += 1
-        current_user.voted_questions[@question.id.to_s] = "dislike"
-      end
-
-      if current_user.voted_questions[@question.id.to_s] == "dislike" && params[:question][:vote] == "like"
-        @question.likes += 1
-        @question.dislikes -= 1
-        current_user.voted_questions[@question.id.to_s] = "like"
-      end
-
-      @question.save
-      current_user.save
-    end
   end
 
   def destroy

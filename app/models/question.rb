@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Votable
+
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :badge, dependent: :destroy
@@ -11,10 +13,6 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :badge, reject_if: :all_blank
 
   validates :title, :body, presence: true
-
-  def count_rating
-    self.likes - self.dislikes
-  end
 
   def other_answers
     answers.where.not(id: best_answer.id)

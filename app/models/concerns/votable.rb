@@ -11,11 +11,10 @@ module Votable
   end
 
   def rating
-    self.likes - self.dislikes
+    likes - dislikes
   end
 
   def find_vote(user)
-    @vote = Vote.find_by(user_id: user.id, votable_id: self.id)
+    @vote = Vote.find_by(user_id: user.id, votable_id: id)
   end
-
 end

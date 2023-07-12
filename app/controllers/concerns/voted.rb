@@ -4,8 +4,13 @@ module Voted
   def vote_for
     respond_to do |format|
       @instance = instance
-      format.json { render json: @instance, status: :forbidden } if @instance.voted_value?(current_user) == 1 || @instance.user_id == current_user.id
-     
+      if @instance.voted_value?(current_user) == 1 || @instance.user_id == current_user.id
+        format.json do
+          render json: @instance,
+                 status: :forbidden
+        end
+      end
+
       if @instance.voted_value?(current_user).nil?
         @instance.votes.create(user_id: current_user.id, value: 1)
         @instance.likes += 1
@@ -19,14 +24,19 @@ module Voted
 
       @instance.save
 
-      format.json { render json: @instance}
+      format.json { render json: @instance }
     end
   end
 
   def vote_against
     respond_to do |format|
       @instance = instance
-      format.json { render json: @instance, status: :forbidden } if @instance.voted_value?(current_user) == -1 || @instance.user_id == current_user.id
+      if @instance.voted_value?(current_user) == -1 || @instance.user_id == current_user.id
+        format.json do
+          render json: @instance,
+                 status: :forbidden
+        end
+      end
 
       if @instance.voted_value?(current_user).nil?
         @instance.votes.create(user_id: current_user.id, value: -1)
@@ -56,5 +66,4 @@ module Voted
   def instance
     model_klass.find(params[:id])
   end
-
 end

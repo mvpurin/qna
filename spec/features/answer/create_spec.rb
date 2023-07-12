@@ -16,11 +16,18 @@ feature 'User can create answer', '
     scenario 'tries to give an answer' do
       fill_in 'Title', with: 'Answer title'
       fill_in 'Body', with: 'Answer body'
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Give answer'
 
       expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Answer title'
       expect(page).to have_content 'Answer body'
+
+      refresh # until use JS template engine
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+      save_and_open_page
     end
 
     scenario 'tries to give an answer with errors' do
@@ -28,24 +35,11 @@ feature 'User can create answer', '
 
       expect(page).to have_content "Title can't be blank"
     end
-
-    scenario 'tries to give an answer with attached files' do
-      fill_in 'Title', with: 'Answer question'
-      fill_in 'Body', with: 'text text text'
-
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'Give answer'
-
-      expect(page).to have_link 'rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb'
-    end
   end
 
   scenario 'Unauthenticated user tries to give an answer' do
     visit question_path(question)
 
-    click_on 'Give answer'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Give answer'
   end
 end

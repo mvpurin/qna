@@ -103,7 +103,7 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:user_2) { create(:user) }
     let!(:answer) { create(:answer, user: user_2, question: question) }
     let!(:badge) { create(:badge, question: question) }
-    
+
     before { login(user) }
 
     context 'with valid attributes' do

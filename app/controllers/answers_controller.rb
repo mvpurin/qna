@@ -1,10 +1,22 @@
 class AnswersController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[index new create]
   before_action :find_answer, only: %i[show destroy update]
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
+
+    respond_to do |format|
+      if @answer.save
+        format.json { render json: @answer }
+      else
+        format.json do
+          render json: @answer.errors.full_messages, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   def update
@@ -30,5 +42,5 @@ class AnswersController < ApplicationController
   def answer_params
     params[:answer][:user_id] = current_user.id
     params.require(:answer).permit(:title, :body, :user_id, files: [], links_attributes: %i[id url name url _destroy])
-  end 
+  end
 end

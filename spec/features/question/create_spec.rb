@@ -48,7 +48,7 @@ feature 'User can create question', '
       within '.badge' do
         attach_file "#{Rails.root}/1.jpeg"
       end
-      
+
       click_on 'Ask'
 
       expect(page).to have_content 'Has a badge for best answer!'

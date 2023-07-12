@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy]
+  before_action :load_question, only: %i[show edit update destroy vote]
 
   def index
     @questions = Question.all
@@ -35,9 +37,12 @@ class QuestionsController < ApplicationController
   def update
     @question.update(question_params)
     @questions = Question.all
-    if !params[:question][:best_answer_id].nil?
-      user = @question.answers.find(params[:question][:best_answer_id].to_i).user 
-      @question.badge.update(user_id: user.id)
+
+    if params[:question][:best_answer_id].nil?
+      return false
+    else
+      user = @question.answers.find(params[:question][:best_answer_id].to_i).user
+      @question.badge.update(user_id: user.id) if @question.badge.present?
     end
   end
 
@@ -57,7 +62,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params[:question][:badge_attributes][:title] = 'Best answer!' if !params[:question][:badge_attributes].nil?
-    params.require(:question).permit(:title, :body, :best_answer_id, files: [], links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
+    params[:question][:badge_attributes][:title] = 'Best answer!' unless params[:question][:badge_attributes].nil?
+    params.require(:question).permit(:title, :body, :best_answer_id, :rating, files: [],
+                                                                              links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
   end
 end

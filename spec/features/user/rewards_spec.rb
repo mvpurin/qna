@@ -18,8 +18,8 @@ image of rewars and its title
     sign_in(user_2)
     visit user_path(user_2)
 
-    expect(page).to have_content("#{badge.title}")
-    expect(page).to have_content("#{question.title}")
+    expect(page).to have_content(badge.title.to_s)
+    expect(page).to have_content(question.title.to_s)
     expect(page).to have_css('img')
   end
 end

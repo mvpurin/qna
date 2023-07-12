@@ -10,7 +10,7 @@ feature 'User can see a list of questions', '
   scenario 'User see a list of questions' do
     visit questions_path
 
-    expect(page).to have_content "#{question.title}"
-    expect(page).to have_content "#{question.body}"
+    expect(page).to have_content question.title.to_s
+    expect(page).to have_content question.body.to_s
   end
 end

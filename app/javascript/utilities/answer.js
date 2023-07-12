@@ -1,13 +1,12 @@
 $(document).on('ready turbo:load', function () {
   $('.answers').on('click', '.edit-answer-link', function (e) {
     e.preventDefault();
-    console.log("Ffffff")
     $(this).hide();
     var answerId = $(this).data('answerId');
     $('form#edit-answer-' + answerId).removeClass('hidden');
   })
 
-  $('form.new-answer').on('ajax:success', function (e) {
+  $('form.new-answer').off().on('ajax:success', function (e) {
     let answer = e.detail[0];
     $('.answers').append('<p>' + answer.title + '\n' + answer.body + '</p>');
   })

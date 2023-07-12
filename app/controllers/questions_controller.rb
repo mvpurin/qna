@@ -38,12 +38,12 @@ class QuestionsController < ApplicationController
     @question.update(question_params)
     @questions = Question.all
 
-    return if params[:question][:best_answer_id].nil?
-
-    user = @question.answers.find(params[:question][:best_answer_id].to_i).user
-    @question.badge.update(user_id: user.id)
-
-    return if params[:question][:vote].nil?
+    if params[:question][:best_answer_id].nil?
+      return false
+    else
+      user = @question.answers.find(params[:question][:best_answer_id].to_i).user
+      @question.badge.update(user_id: user.id) if @question.badge.present?
+    end
   end
 
   def destroy

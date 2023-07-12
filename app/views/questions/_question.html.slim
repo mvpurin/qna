@@ -9,12 +9,13 @@ div id="question-#{question.id}"
           = question.body
       tr
         td id="rating-#{question.id}" = "Rating: #{question.rating}"
-      tr.voting
-        td
-          = link_to 'Like', vote_for_question_path(question, question: { vote: 'like' }), remote: true
+      - if user_signed_in?
+        tr.voting
+          td
+            = link_to 'Like', vote_for_question_path(question, question: { vote: 'like' }), remote: true
 
-        td
-          = link_to 'Dislike', vote_against_question_path(question, question: { vote: 'dislike' }), remote: true
+          td
+            = link_to 'Dislike', vote_against_question_path(question, question: { vote: 'dislike' }), remote: true
       tr    
         td
           = link_to 'See question', question_path(question)

@@ -27,7 +27,6 @@ feature 'User can create answer', '
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
-      save_and_open_page
     end
 
     scenario 'tries to give an answer with errors' do

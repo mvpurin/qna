@@ -12,10 +12,10 @@ div id="question-#{question.id}"
       - if user_signed_in?
         tr.voting
           td
-            = link_to 'Like', vote_for_question_path(question, question: { vote: 'like' }), remote: true
+            = link_to 'Like', vote_for_question_path(question), remote: true
 
           td
-            = link_to 'Dislike', vote_against_question_path(question, question: { vote: 'dislike' }), remote: true
+            = link_to 'Dislike', vote_against_question_path(question), remote: true
       tr    
         td
           = link_to 'See question', question_path(question)

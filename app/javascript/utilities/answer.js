@@ -6,7 +6,7 @@ $(document).on('ready turbo:load', function () {
     $('form#edit-answer-' + answerId).removeClass('hidden');
   })
 
-  $('form.new-answer').off().on('ajax:success', function (e) {
+  $('form.new-answer').on('ajax:success', function (e) {
     let answer = e.detail[0];
     $('.answers').append('<p>' + answer.title + '\n' + answer.body + '</p>');
   })

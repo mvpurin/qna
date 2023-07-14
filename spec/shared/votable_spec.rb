@@ -21,16 +21,17 @@ RSpec.shared_examples "a votable object" do
 
 end
 
-RSpec.describe Question do
+RSpec.describe Question, type: :model do
   it_behaves_like "a votable object" do
     let(:votable) { create(:question, user: user, likes: 5, dislikes: 2) }
     let!(:vote) { votable.votes.create(user: user) }
   end
 end
 
-RSpec.describe Answer do
+RSpec.describe Answer, type: :model do
   it_behaves_like "a votable object" do
-    let(:votable) { create(:question, user: user, likes: 5, dislikes: 2) }
+    let(:question) { create(:question, user: user) }
+    let(:votable) { create(:answer, user: user, question: question, likes: 5, dislikes: 2) }
     let!(:vote) { votable.votes.create(user: user) }
   end
 end

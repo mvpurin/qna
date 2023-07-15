@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples "a votable object" do
-  let!(:user) {create(:user)}
+RSpec.shared_examples "votable" do
 
   describe described_class, type: :model do
     it { should have_many(:votes).dependent(:destroy) }
@@ -19,19 +18,4 @@ RSpec.shared_examples "a votable object" do
     expect(votable.find_vote(user)).to eq(vote)
   end
 
-end
-
-RSpec.describe Question, type: :model do
-  it_behaves_like "a votable object" do
-    let(:votable) { create(:question, user: user, likes: 5, dislikes: 2) }
-    let!(:vote) { votable.votes.create(user: user) }
-  end
-end
-
-RSpec.describe Answer, type: :model do
-  it_behaves_like "a votable object" do
-    let(:question) { create(:question, user: user) }
-    let(:votable) { create(:answer, user: user, question: question, likes: 5, dislikes: 2) }
-    let!(:vote) { votable.votes.create(user: user) }
-  end
 end

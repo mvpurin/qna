@@ -1,9 +1,16 @@
 require 'rails_helper'
+# require 'shared/voted_spec'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
+
+  it_behaves_like "voted" do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:votable) { create(:answer, question: question, user: user) }
+  end
 
   describe 'POST #create' do
     before { login(user) }

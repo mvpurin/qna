@@ -1,8 +1,14 @@
 require 'rails_helper'
+# require 'shared/voted_spec'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+
+  it_behaves_like "voted" do
+    let(:user) { create(:user) }
+    let(:votable) { create(:question, user: user) }
+  end
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }

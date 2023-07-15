@@ -3,51 +3,51 @@ module Voted
 
   def vote_for
     respond_to do |format|
-      @instance = instance
-      if @instance.voted_value?(current_user) == 1 || @instance.user_id == current_user.id
+      @votable = instance
+      if @votable.voted_value?(current_user) == 1 || @votable.user_id == current_user.id
         format.json do
-          render json: @instance,
+          render json: @votable,
                  status: :forbidden
         end
 
-      elsif @instance.voted_value?(current_user).nil?
-        @instance.votes.create(user_id: current_user.id, value: 1)
-        @instance.likes += 1
+      elsif @votable.voted_value?(current_user).nil?
+        @votable.votes.create(user_id: current_user.id, value: 1)
+        @votable.likes += 1
 
-      elsif @instance.voted_value?(current_user) == -1
-        @instance.likes += 1
-        @instance.dislikes -= 1
-        @instance.find_vote(current_user).update(value: 1)
+      elsif @votable.voted_value?(current_user) == -1
+        @votable.likes += 1
+        @votable.dislikes -= 1
+        @votable.find_vote(current_user).update(value: 1)
       end
 
-      @instance.save
+      @votable.save
 
-      format.json { render json: @instance }
+      format.json { render json: @votable }
     end
   end
 
   def vote_against
     respond_to do |format|
-      @instance = instance
-      if @instance.voted_value?(current_user) == -1 || @instance.user_id == current_user.id
+      @votable = instance
+      if @votable.voted_value?(current_user) == -1 || @votable.user_id == current_user.id
         format.json do
-          render json: @instance,
+          render json: @votable,
                  status: :forbidden
         end
 
-      elsif @instance.voted_value?(current_user).nil?
-        @instance.votes.create(user_id: current_user.id, value: -1)
-        @instance.dislikes += 1
+      elsif @votable.voted_value?(current_user).nil?
+        @votable.votes.create(user_id: current_user.id, value: -1)
+        @votable.dislikes += 1
 
-      elsif @instance.voted_value?(current_user) == 1
-        @instance.likes -= 1
-        @instance.dislikes += 1
-        @instance.find_vote(current_user).update(value: -1)
+      elsif @votable.voted_value?(current_user) == 1
+        @votable.likes -= 1
+        @votable.dislikes += 1
+        @votable.find_vote(current_user).update(value: -1)
       end
 
-      @instance.save
+      @votable.save
 
-      format.json { render json: @instance }
+      format.json { render json: @votable }
     end
   end
 

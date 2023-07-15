@@ -1,4 +1,5 @@
 require 'rails_helper'
+# require 'shared/votable_spec'
 
 RSpec.describe Question, type: :model do
   it { should validate_presence_of :title }
@@ -16,5 +17,9 @@ RSpec.describe Question, type: :model do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  # it_behaves_like 'votable'
+  it_behaves_like 'votable' do
+    let(:user) {create(:user)} 
+    let(:votable) { create(:question, user: user, likes: 5, dislikes: 2) }
+    let!(:vote) { votable.votes.create(user: user) }
+  end
 end

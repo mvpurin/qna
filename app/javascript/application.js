@@ -10,6 +10,7 @@ import "bootstrap"
 
 import "@rails/activestorage"
 import "@nathanvda/cocoon"
+import "@rails/actioncable"
 
 import GistClient from "gist-client"
 const gistClient = new GistClient()
@@ -19,6 +20,9 @@ window.gistClient = gistClient
 import "utilities/answer"
 import "utilities/question"
 
+import "channels"
+
+// load gists with gist-client
 window.gistLoader = function gistLoader(gist_url, id) {
   gistClient
     .setToken(document.head.querySelector("meta[name=gist_token]").content)

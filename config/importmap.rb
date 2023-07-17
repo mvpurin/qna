@@ -13,10 +13,12 @@ pin 'popper', to: 'popper.js', preload: true
 pin 'bootstrap', to: 'bootstrap.min.js', preload: true
 
 pin_all_from 'app/javascript/utilities', under: 'utilities'
+pin_all_from "app/javascript/channels", under: 'channels'
 
 # https://stackoverflow.com/questions/71632824/rails-7-view-and-direct-upload-image-from-browser-client
 pin '@rails/activestorage', to: 'https://ga.jspm.io/npm:@rails/activestorage@7.0.2/app/assets/javascripts/activestorage.esm.js'
 pin '@nathanvda/cocoon', to: 'https://ga.jspm.io/npm:@nathanvda/cocoon@1.2.14/cocoon.js'
+
 pin 'gist-client', to: 'https://ga.jspm.io/npm:gist-client@1.1.1/index.js'
 pin 'ajv', to: 'https://ga.jspm.io/npm:ajv@6.12.6/lib/ajv.js'
 pin 'ajv/lib/refs/json-schema-draft-06.json', to: 'https://ga.jspm.io/npm:ajv@6.12.6/lib/refs/json-schema-draft-06.json.js'
@@ -91,3 +93,5 @@ pin 'uuid/lib/rng.js', to: 'https://ga.jspm.io/npm:uuid@3.4.0/lib/rng-browser.js
 pin 'uuid/v4', to: 'https://ga.jspm.io/npm:uuid@3.4.0/v4.js'
 pin 'verror', to: 'https://ga.jspm.io/npm:verror@1.10.0/lib/verror.js'
 pin 'zlib', to: 'https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/zlib.js'
+
+pin "@rails/actioncable", to: "https://ga.jspm.io/npm:@rails/actioncable@7.0.6/app/assets/javascripts/actioncable.esm.js"

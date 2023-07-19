@@ -1,6 +1,6 @@
 import consumer from "./consumer";
 
-consumer.subscriptions.create("QuestionsChannel", {
+consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.question_id }, {
   initialized() {
     this.update = this.update.bind(this)
   },
@@ -9,10 +9,10 @@ consumer.subscriptions.create("QuestionsChannel", {
   },
   connected() {
     console.log("Connected!")
-    this.perform("follow")
+    // this.perform("follow")
   },
   received(data) {
-    let questionsList = document.getElementsByClassName("questions");
-    questionsList.append(data);
+    console.log(data);
+    document.getElementsByClassName("questions").append(JST["templates/question"](data));
   }
 })

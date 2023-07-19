@@ -64,13 +64,13 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
+
+    gon.question_id = @question.id
+    
     ActionCable.server.broadcast(
-      "questions",
-       ApplicationController.render(
-        partial: "questions/question",
-        locals: { question: @question }
-       )
-      )
+      "question_#{@question.id}",
+      { question: @question }
+    )
   end
 
   def question_params

@@ -1,12 +1,20 @@
-br
-table 
-  thead List of questions 
-  tbody 
-    tr 
-      td= link_to 'Ask question', new_question_path
-    tr
-      td.questions
-        = render @questions
-    tr 
-      td.question-errors
-        = render 'shared/errors', resource: @question
+/ br
+/ table 
+/   thead List of questions 
+/   tbody 
+/     tr 
+/       td= link_to 'Ask question', new_question_path
+/     tr
+/       td.questions
+/         = render @questions
+/     tr 
+/       td.question-errors
+/         = render 'shared/errors', resource: @question
+
+
+h1 List of questions 
+p= link_to 'Ask question', new_question_path
+.questions 
+  = render @questions
+.question-errors
+  =render 'shared/errors', resource: @question

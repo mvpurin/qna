@@ -15,7 +15,7 @@ RSpec.describe Answer, type: :model do
   end
 
   it_behaves_like 'votable' do
-    let(:user) {create(:user)}
+    let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:votable) { create(:answer, user: user, question: question, likes: 5, dislikes: 2) }
     let!(:vote) { votable.votes.create(user: user) }

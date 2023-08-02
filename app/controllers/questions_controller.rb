@@ -3,13 +3,14 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy vote]
-  after_action :publish_question, only: %i[create]
 
   def index
     @questions = Question.all
   end
 
   def show
+    gon.question_id = @question.id
+
     @answer = @question.answers.new
     @answer.links.new
 
@@ -29,6 +30,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
+      QuestionsChannel.broadcast_to(@question, @question.body)
       redirect_to @question, notice: 'Your question was successfully created.'
     else
       render :new
@@ -39,12 +41,10 @@ class QuestionsController < ApplicationController
     @question.update(question_params)
     @questions = Question.all
 
-    if params[:question][:best_answer_id].nil?
-      return false
-    else
-      user = @question.answers.find(params[:question][:best_answer_id].to_i).user
-      @question.badge.update(user_id: user.id) if @question.badge.present?
-    end
+    return false if params[:question][:best_answer_id].nil?
+
+    user = @question.answers.find(params[:question][:best_answer_id].to_i).user
+    @question.badge.update(user_id: user.id) if @question.badge.present?
   end
 
   def destroy
@@ -60,17 +60,6 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
-  end
-
-  def publish_question
-    return if @question.errors.any?
-
-    gon.question_id = @question.id
-    
-    ActionCable.server.broadcast(
-      "question_#{@question.id}",
-      { question: @question }
-    )
   end
 
   def question_params

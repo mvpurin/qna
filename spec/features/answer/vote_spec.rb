@@ -48,7 +48,7 @@ to be able to vote for an answer I like
 
   scenario 'Authenticated user tries to vote', js: true do
     visit questions_path
-    expect(page).to_not have_content "Like"
-    expect(page).to_not have_content "Dislike"
+    expect(page).to_not have_content 'Like'
+    expect(page).to_not have_content 'Dislike'
   end
 end

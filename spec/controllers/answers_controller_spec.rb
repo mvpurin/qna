@@ -6,7 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
 
-  it_behaves_like "voted" do
+  it_behaves_like 'voted' do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:votable) { create(:answer, question: question, user: user) }

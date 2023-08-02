@@ -70,7 +70,7 @@ feature 'User can create question', '
         fill_in 'Title', with: 'Text question'
         fill_in 'Body', with: 'text text text'
         click_on 'Ask'
-  
+
         expect(page).to have_content 'Your question was successfully created.'
         expect(page).to have_content 'Text question'
         expect(page).to have_content 'text text text'

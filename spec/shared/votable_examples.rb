@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples "votable" do
-
+RSpec.shared_examples 'votable' do
   describe described_class, type: :model do
     it { should have_many(:votes).dependent(:destroy) }
   end
@@ -17,5 +16,4 @@ RSpec.shared_examples "votable" do
   it 'should check if user has already voted' do
     expect(votable.find_vote(user)).to eq(vote)
   end
-
 end

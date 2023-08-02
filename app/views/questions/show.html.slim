@@ -88,7 +88,8 @@
     .links
       = render "shared/links", instance: @question
 
-    .answers 
+    .answers
+      h3 Answers
       - if @question.best_answer
         = render @best_answer
         = render @other_answers

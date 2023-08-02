@@ -1,0 +1,49 @@
+- if @question.persisted?
+  .question id="question-#{@question.id}"
+    h1 class="question-title-#{@question.id}"
+      = @question.title
+    h2 class="question-body-#{@question.body}"
+      = @question.body
+
+    - if !@question.badge.nil?
+      p Has a badge for best answer!
+
+    .attached_files 
+      render "shared/attached_files", instance: @question
+    
+    .links
+      render "shared/links", instance: @question
+
+    .answers 
+      - if @question.best_answer
+        = render @best_answer
+        = render @other_answers
+      - else 
+        = render @question.answers
+
+      - if !current_user.nil?
+        p Add new answer 
+        .answer-errors
+
+    .new-answer 
+      = form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :json } do |f|
+        p 
+          = f.label :title
+          = f.text_field :title
+        p  
+          = f.label :body
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+        p Links: 
+        p 
+        .div id="links"
+          = f.fields_for :links do |link|
+            = render 'shared/link_fields', f: link
+          .links
+            = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+        p
+          = f.submit 'Give answer'
+
+    p= link_to 'All questions', questions_path

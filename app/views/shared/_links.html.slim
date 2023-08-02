@@ -1,0 +1,11 @@
+- if instance.links.any?
+  ul Links
+    - instance.links.each do |link|
+      li.link id="link-#{link.id}"
+        - if link.gist?
+          p id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
+        - else  
+          p= link_to link.name, link.url
+        - if !current_user.nil?
+          - if link.linkable.user_id == current_user.id
+            p= link_to "Delete link", link_path(link), method: :delete, remote: true

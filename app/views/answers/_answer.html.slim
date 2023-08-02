@@ -1,37 +1,93 @@
-div id="answer-#{answer.id}"
-  table
-    body
-      - if answer.persisted?
-        tr
-          td= answer.title
-        tr  
-          td= answer.body
-        - if answer.files.attached?
-          - answer.files.each do |file|
-            tr.files id="file-#{file.id}"
-             td= link_to file.filename.to_s, url_for(file)
-             td
-              -if current_user.id == file.record.user_id  
-                = link_to 'Delete file', file_path(file), method: :delete, remote: true
+/ div id="answer-#{answer.id}"
+/   table
+/     body
+/       - if answer.persisted?
+/         tr
+/           td= answer.title
+/         tr  
+/           td= answer.body
+/         - if answer.files.attached?
+/           - answer.files.each do |file|
+/             tr.files id="file-#{file.id}"
+/              td= link_to file.filename.to_s, url_for(file)
+/              td
+/               -if current_user.id == file.record.user_id  
+/                 = link_to 'Delete file', file_path(file), method: :delete, remote: true
 
-        tr
-          td id="rating-#{answer.id}" = "Rating: #{answer.rating}"
-        - if user_signed_in?
-          tr.voting
-            td
-              = link_to 'Like', vote_for_answer_path(answer), remote: true
-            td
-              = link_to 'Dislike', vote_against_answer_path(answer), remote: true
-        tr        
-          - if user_signed_in? && answer.question.user_id == current_user.id
-            td
-              = link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
-          - if user_signed_in? && current_user.id == answer.user_id
-            td
-              = link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
-            td  
-              = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-          td
+/         tr
+/           td id="rating-#{answer.id}" = "Rating: #{answer.rating}"
+/         - if user_signed_in?
+/           tr.voting
+/             td
+/               = link_to 'Like', vote_for_answer_path(answer), remote: true
+/             td
+/               = link_to 'Dislike', vote_against_answer_path(answer), remote: true
+/         tr        
+/           - if user_signed_in? && answer.question.user_id == current_user.id
+/             td
+/               = link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
+/           - if user_signed_in? && current_user.id == answer.user_id
+/             td
+/               = link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
+/             td  
+/               = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+/           td
+/             = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+/               p
+/                 = f.label :title
+/                 = f.text_field :title
+/               p
+/                 = f.label :body
+/                 = f.text_area :body
+/               p
+/                 = f.label :files
+/                 = f.file_field :files, multiple: true, direct_upload: true
+/               p 
+/               .div id="links"
+/                 = f.fields_for :links do |link|
+/                   = render 'shared/link_fields', f: link
+/                 .links
+/                   = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+/               p
+/                 = f.submit 'Save'
+/           tr
+/           - if answer.links.any?
+/             th Links
+/           - answer.links.each do |link|
+/             tr.links id="link-#{link.id}"
+/               - if link.gist?
+/                 td id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
+/                   javascript: 
+
+/               - else  
+/                 td= link_to link.name, link.url
+/               td= link_to "Delete link", link_path(link), method: :delete, remote: true
+/ hr 
+
+- if answer.persisted?
+  .answer id="answer-#{answer.id}"
+    p class="answer-title-#{answer.id}"
+      = answer.title 
+    p class="answer-body-#{answer.id}"
+      = answer.body 
+
+    .attached_files 
+      = render "shared/attached_files", instance: answer
+
+    .rating id="rating-answer-#{answer.id}" 
+      p= "Rating: #{answer.rating}"
+      - if user_signed_in? && current_user.id != answer.user_id
+        .voting 
+          p= link_to 'Like', vote_for_answer_path(answer), remote: true
+          p= link_to 'Dislike', vote_answer_question_path(answer), remote: true
+
+    .actions 
+      - if user_signed_in? && answer.question.user_id == current_user.id
+        p= link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
+        - if user_signed_in? && current_user.id == answer.user_id
+          p= link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
+          p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          p
             = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
               p
                 = f.label :title
@@ -50,17 +106,10 @@ div id="answer-#{answer.id}"
                   = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
               p
                 = f.submit 'Save'
-          tr
-          - if answer.links.any?
-            th Links
-          - answer.links.each do |link|
-            tr.links id="link-#{link.id}"
-              - if link.gist?
-                td id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}"  data-gist-id="#{link.id}"
-                  javascript: 
 
-              - else  
-                td= link_to link.name, link.url
-              td= link_to "Delete link", link_path(link), method: :delete, remote: true
-hr 
+      .links
+        = render "shared/links", instance: answer
+  hr
+
+  
 

@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
       if @answer.save
         gon_question_id = @question.id
         AnswersChannel.broadcast_to(@question, @answer)
-        
+
         format.json { render json: @answer }
       else
         format.json do

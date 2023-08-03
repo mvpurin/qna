@@ -74,19 +74,21 @@
     .attached_files 
       = render "shared/attached_files", instance: answer
 
-    .rating id="rating-answer-#{answer.id}" 
-      p= "Rating: #{answer.rating}"
+    .rating class="rating-answer-#{answer.id}" 
+      p id="rating-answer-#{answer.id}"
+        = "Rating: #{answer.rating}"
       - if user_signed_in? && current_user.id != answer.user_id
         .voting 
           p= link_to 'Like', vote_for_answer_path(answer), remote: true
-          p= link_to 'Dislike', vote_answer_question_path(answer), remote: true
+          p= link_to 'Dislike', vote_against_answer_path(answer), remote: true
 
     .actions 
       - if user_signed_in? && answer.question.user_id == current_user.id
         p= link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
-        - if user_signed_in? && current_user.id == answer.user_id
-          p= link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
-          p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      - if user_signed_in? && current_user.id == answer.user_id
+        p= link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
+        p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        .edit_answer
           p
             = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
               p
@@ -107,9 +109,9 @@
               p
                 = f.submit 'Save'
 
-      .links
-        = render "shared/links", instance: answer
-  hr
+    .links
+      = render "shared/links", instance: answer
+hr
 
   
 

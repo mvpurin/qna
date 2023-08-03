@@ -26,6 +26,6 @@ $(document).on('ready turbo:load', function () {
     let instance = e.detail[0];
     let id = instance.id;
     let rating = instance.likes - instance.dislikes;
-    $('#rating-' + id).html('Rating: ' + rating);
+    $('#rating-answer-' + id).html('Rating: ' + rating);
   })
 });

@@ -53,8 +53,9 @@
   h2 class="question-body-#{question.id}"
     = question.body 
   
-  .rating id="rating-question-#{question.id}" 
-    = "Rating: #{question.rating}"
+  .rating class="rating-question-#{question.id}" 
+    p id="rating-question-#{question.id}"
+      = "Rating: #{question.rating}"
     - if user_signed_in? && current_user.id != question.user_id
       .voting 
         p= link_to 'Like', vote_for_question_path(question), remote: true

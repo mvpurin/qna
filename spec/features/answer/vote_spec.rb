@@ -40,13 +40,13 @@ to be able to vote for an answer I like
 
     scenario 'votes for his answer' do
       within "div#answer-#{answer.id}" do
-        click_on 'Like'
-        expect(page).to have_content 'Rating: 0'
+        expect(page).to_not have_content 'Like'
+        expect(page).to_not have_content 'Dislike'
       end
     end
   end
 
-  scenario 'Authenticated user tries to vote', js: true do
+  scenario 'Unauthenticated user tries to vote', js: true do
     visit questions_path
     expect(page).to_not have_content 'Like'
     expect(page).to_not have_content 'Dislike'

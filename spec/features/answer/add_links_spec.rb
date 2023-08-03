@@ -12,9 +12,9 @@ feature 'User can add links to answer', "
 
   scenario 'User adds link when gives answer', js: true do
     sign_in(user)
-    visit new_question_path
+    visit question_path(question)
 
-    fill_in 'Title', with: 'Test question'
+    fill_in 'Title', with: 'Test answer'
     fill_in 'Body', with: 'Text text text'
 
     fill_in 'Link name', with: 'My gist'
@@ -27,8 +27,10 @@ feature 'User can add links to answer', "
       fill_in 'Url', with: wiki_url
     end
 
-    click_on 'Ask'
+    click_on 'Give answer'
+
     expect(page).to have_content 'QNA gist'
     expect(page).to have_link 'Wikipedia', href: wiki_url
+    save_and_open_page
   end
 end

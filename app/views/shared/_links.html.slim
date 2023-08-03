@@ -1,7 +1,7 @@
 - if instance.links.any?
   ul Links
     - instance.links.each do |link|
-      li.link id="link-#{link.id}"
+      li.links id="link-#{link.id}"
         - if link.gist?
           p id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}" data-gist-id="#{link.id}"
         - else  

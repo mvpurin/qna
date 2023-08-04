@@ -11,6 +11,7 @@ import "bootstrap"
 import "@rails/activestorage"
 import "@nathanvda/cocoon"
 import "@rails/actioncable"
+import "skim"
 
 import GistClient from "gist-client"
 const gistClient = new GistClient()

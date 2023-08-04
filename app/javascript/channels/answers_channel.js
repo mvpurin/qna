@@ -17,6 +17,7 @@ consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.ques
     if (gon.user_id == data.user_id) { return }
     console.log("received data: ", data)
 
-    JST["templates/answer"](data)
+    let answers = document.getElementsByClassName("answers")
+    answers.append(JST["templates/answer"](data))
   },
 })

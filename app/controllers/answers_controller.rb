@@ -11,7 +11,8 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         gon_question_id = @question.id
-        AnswersChannel.broadcast_to(@question, @answer)
+        ActionCable.server.broadcast("answers-question-#{@question.id}",
+          { answer: @answer })
 
         format.json { render json: @answer }
       else

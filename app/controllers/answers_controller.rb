@@ -10,9 +10,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
-        gon_question_id = @question.id
-        ActionCable.server.broadcast("answers-question-#{@question.id}",
-          { answer: @answer })
+        gon.question_id = @question.id
 
         format.json { render json: @answer }
       else

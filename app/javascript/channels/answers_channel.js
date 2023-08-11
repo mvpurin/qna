@@ -14,10 +14,15 @@ consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.ques
   },
 
   received(data) {
-    if (gon.user_id == data.user_id) { return }
+    if (gon.user_id == data.answer.user_id) { return }
     console.log("received data: ", data)
 
-    let answers = document.getElementsByClassName("answers")
-    answers.append(JST["templates/answer"](data))
+    let answers = document.getElementsByClassName("answers")[0];
+    answers.append(data.answer.title)
+    answers.append(document.createElement("br"))
+    answers.append(data.answer.body)
+    answers.append(document.createElement("br"))
+    answers.append("Rating: " + data.rating)
+    answers.append(document.createElement("hr"))
   },
 })

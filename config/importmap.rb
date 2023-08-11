@@ -95,14 +95,3 @@ pin 'verror', to: 'https://ga.jspm.io/npm:verror@1.10.0/lib/verror.js'
 pin 'zlib', to: 'https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/zlib.js'
 
 pin '@rails/actioncable', to: 'https://ga.jspm.io/npm:@rails/actioncable@7.0.6/app/assets/javascripts/actioncable.esm.js'
-
-pin "skim", to: "https://ga.jspm.io/npm:skim@0.1.1/skim.js"
-pin "async", to: "https://ga.jspm.io/npm:async@0.1.22/index.js"
-pin "cssax", to: "https://ga.jspm.io/npm:cssax@0.0.6/cssax.js"
-pin "ent", to: "https://ga.jspm.io/npm:ent@0.0.4/index.js"
-pin "events", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/events.js"
-pin "fs", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/fs.js"
-pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/process-production.js"
-pin "sax", to: "https://ga.jspm.io/npm:sax@0.4.3/lib/sax.js"
-pin "stream", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/stream.js"
-pin "util", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/util.js"

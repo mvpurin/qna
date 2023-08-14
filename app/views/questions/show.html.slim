@@ -14,6 +14,12 @@
     .links
       = render "shared/links", instance: @question
 
+    .comments
+      = render "comments/comment", instance: @question
+
+    .new-question-comment
+      = render "comments/new", instance: @question
+
     .answers
       h3 Answers
       - if @question.best_answer

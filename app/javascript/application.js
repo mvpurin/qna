@@ -17,9 +17,9 @@ const gistClient = new GistClient()
 window.gistClient = gistClient
 
 // Custom JS files
-import "utilities/answer"
-import "utilities/question"
+import "utilities"
 
+//  ActionCable channels
 import "channels"
 
 // load gists with gist-client

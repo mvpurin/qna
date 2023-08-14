@@ -65,6 +65,7 @@ class QuestionsController < ApplicationController
   def question_params
     params[:question][:badge_attributes][:title] = 'Best answer!' unless params[:question][:badge_attributes].nil?
     params.require(:question).permit(:title, :body, :best_answer_id, :rating, files: [],
-                                                                              links_attributes: %i[id name url _destroy], badge_attributes: %i[id title user_id file _destroy])
+                                                                              links_attributes: %i[id name url _destroy],
+                                                                              badge_attributes: %i[id title user_id file _destroy])
   end
 end

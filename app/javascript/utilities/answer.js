@@ -7,7 +7,6 @@ $(document).on('ready turbo:load', function () {
   })
 
   $('form.new-answer').on('ajax:success', function (e) {
-    console.log(e);
     let answer = e.detail[0];
     $('.answers').append('<p>' + answer.title + '\n' + answer.body + '</p>');
   })

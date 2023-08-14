@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'comments/create'
   devise_for :users
 
   concern :votable do
@@ -7,8 +8,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: %i[votable], shallow: true do
-    resources :answers, only: %i[new create destroy update], concerns: %i[votable]
+  concern :commentable do
+    resources :comments, only: [:create]
+  end
+
+  resources :questions, concerns: %i[votable commentable], shallow: true do
+    resources :answers, only: %i[new create destroy update], concerns: %i[votable commentable]
   end
 
   resources :files, only: :destroy

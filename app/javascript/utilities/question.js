@@ -6,6 +6,13 @@ $(document).on('ready turbo:load', function () {
     $('form#edit-question-' + questionId).removeClass('hidden');
   });
 
+  $('.question').on('click', '.add-comment-question', function (e) {
+    e.preventDefault();
+    $(this).hide();
+    let questionId = $(this).data('instanceId');
+    $('form#add-comment-question-' + questionId).removeClass('hidden');
+  })
+
   $('.questions').on('ajax:success', function (e) {
     let instance = e.detail[0];
     let id = instance.id;

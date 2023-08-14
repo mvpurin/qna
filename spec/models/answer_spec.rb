@@ -20,4 +20,6 @@ RSpec.describe Answer, type: :model do
     let(:votable) { create(:answer, user: user, question: question, likes: 5, dislikes: 2) }
     let!(:vote) { votable.votes.create(user: user) }
   end
+
+  it_behaves_like 'commentable'
 end

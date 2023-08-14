@@ -7,9 +7,9 @@ class Comment < ApplicationRecord
   validates :body, presence: true
 
   def publish_comment
-    return if self.errors.any?
+    return if errors.any?
 
-    question_id = self.commentable_type == "Question" ? self.commentable.id : self.commentable.question.id
+    question_id = commentable_type == 'Question' ? commentable.id : commentable.question.id
 
     ActionCable.server.broadcast(
       "comments-question-#{question_id}",

@@ -6,15 +6,17 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
 
-    respond_to do |format|
-      if @comment.save
-        format.json { render json: @comment }
-      else
-        format.json do
-          render json: @comment.errors.full_messages, status: :unprocessable_entity
-        end
-      end
-    end
+    @comment.save
+
+    # respond_to do |format|
+    #   if @comment.save
+    #     format.json { render json: @comment }
+    #   else
+    #     format.json do
+    #       render json: @comment.errors.full_messages, status: :unprocessable_entity
+    #     end
+    #   end
+    # end
   end
 
   private

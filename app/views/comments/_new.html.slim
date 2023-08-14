@@ -2,12 +2,6 @@ p= link_to 'Add comment', '#', class: "add-comment-#{instance.class.to_s.downcas
 
 = form_with model: [instance, instance.comments.new], class: 'hidden new-comment', html: { id: "add-comment-#{instance.class.to_s.downcase}-#{instance.id}" }, local: false do |f|
 
-  / = f.fields_for :comments do |l|
-  /   p
-  /     = l.label :body
-  /     = l.text_field :body
-  /   p 
-
   = f.label :body
   = f.text_field :body
   = f.submit "Add comment"

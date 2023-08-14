@@ -1,4 +1,4 @@
-$(document).on('ready turbo:load', function () {
+$(document).on('turbo:load', function () {
   $('.answers').on('click', '.edit-answer-link', function (e) {
     e.preventDefault();
     $(this).hide();
@@ -19,6 +19,13 @@ $(document).on('ready turbo:load', function () {
     for (let i = 0; i < errors.length; i++) {
       $('.answer-errors').append('<p>' + errors[i] + '</p>');
     }
+  })
+
+  $('.question').on('click', '.add-comment-answer', function (e) {
+    e.preventDefault();
+    $(this).hide();
+    let answerId = $(this).data('instanceId');
+    $('form#add-comment-answer-' + answerId).removeClass('hidden');
   })
 
   $('.answers').on('ajax:success', function (e) {

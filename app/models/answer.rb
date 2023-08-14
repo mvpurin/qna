@@ -16,7 +16,7 @@ class Answer < ApplicationRecord
   def publish_answer
     return if errors.any?
 
-    ActionCable.server.broadcast("answers-question-#{question.id}",
+    ActionCable.server.broadcast("answers-question-#{self.question.id}",
                                  {
                                    answer: self,
                                    rating: rating

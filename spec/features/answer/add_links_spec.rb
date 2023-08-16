@@ -29,8 +29,9 @@ feature 'User can add links to answer', "
 
     click_on 'Give answer'
 
+    visit(current_path)
+
     expect(page).to have_content 'QNA gist'
     expect(page).to have_link 'Wikipedia', href: wiki_url
-    save_and_open_page
   end
 end

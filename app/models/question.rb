@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include Votable
   include Commentable
+
   after_create :publish_question
 
   has_many :answers, dependent: :destroy

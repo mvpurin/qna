@@ -45,11 +45,11 @@
     .answer-comments id="answer-#{answer.id}-comments"
       = render "comments/comment", instance: answer
 
-    .new-answer-comment
+    .new-answer-comment id="answer-#{answer.id}-new-comment"
       = render "comments/new", instance: answer
 
     .links
-      = render "shared/links", instance: answer
+      = render "links/link", instance: answer
 hr
 
   

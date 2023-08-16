@@ -6,7 +6,7 @@ feature 'User can create answer', '
 ' do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, question: question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'Authenticated user', js: true do
     background do

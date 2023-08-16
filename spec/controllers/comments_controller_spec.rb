@@ -26,14 +26,14 @@ RSpec.describe CommentsController, type: :controller do
       it 'does not save the comment' do
         expect do
           post :create,
-              params: { comment: attributes_for(:comment, :invalid), question_id: question, user_id: user }
+               params: { comment: attributes_for(:comment, :invalid), question_id: question, user_id: user }
         end.not_to change(Comment, :count)
       end
 
       it 'does not save the comment' do
         expect do
           post :create,
-              params: { comment: attributes_for(:comment, :invalid), answer_id: answer, user_id: user }
+               params: { comment: attributes_for(:comment, :invalid), answer_id: answer, user_id: user }
         end.not_to change(Comment, :count)
       end
     end

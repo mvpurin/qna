@@ -1,5 +1,6 @@
-- if instance.links.any?
-  ul Links
+ul class="links"
+  - if instance.links.any?
+    h5 Links
     - instance.links.each do |link|
       li.links id="link-#{link.id}"
         - if link.gist?

@@ -68,12 +68,12 @@ feature 'User can create question', '
       end
 
       Capybara.using_session('user') do
-        within "div.new-question-comment" do
+        within 'div.new-question-comment' do
           click_on 'Add comment'
           fill_in 'Body', with: 'New comment body'
           click_on 'Add comment'
         end
-        
+
         expect(page).to have_content 'New comment body'
       end
 

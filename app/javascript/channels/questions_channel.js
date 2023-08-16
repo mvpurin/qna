@@ -14,6 +14,6 @@ consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.qu
   },
 
   received(data) {
-    console.log("received data: ", data)
+    console.log("received data: ", data.question)
   },
 })

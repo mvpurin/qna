@@ -2,7 +2,7 @@ class Comment < ApplicationRecord
   after_create :publish_comment
 
   belongs_to :user, optional: true
-  belongs_to :commentable, polymorphic: true, optional: true
+  belongs_to :commentable, polymorphic: true
 
   validates :body, presence: true
 

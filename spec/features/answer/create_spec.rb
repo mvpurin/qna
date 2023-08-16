@@ -36,6 +36,36 @@ feature 'User can create answer', '
     end
   end
 
+  context 'multiple sessions', js: true do
+    scenario 'multiple sessions' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within 'div.new-answer' do
+          fill_in 'Title', with: 'Answer title'
+          fill_in 'Body', with: 'Answer body'
+          click_on 'Give answer'
+        end
+
+        expect(current_path).to eq question_path(question)
+        expect(page).to have_content 'Answer title'
+        expect(page).to have_content 'Answer body'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Answer title'
+        expect(page).to have_content 'Answer body'
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries to give an answer' do
     visit question_path(question)
 

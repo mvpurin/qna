@@ -6,7 +6,6 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[show destroy update]
 
   def create
-    byebug
     @answer = @question.answers.new(answer_params)
 
     respond_to do |format|

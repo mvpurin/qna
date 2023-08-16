@@ -6,6 +6,7 @@ feature 'User can create answer', '
 ' do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  given(:answer) { create(:answer, question: question, user: user) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -37,7 +38,7 @@ feature 'User can create answer', '
   end
 
   context 'multiple sessions', js: true do
-    scenario 'multiple sessions' do
+    scenario 'for adding answer' do
       Capybara.using_session('user') do
         sign_in(user)
         visit question_path(question)
@@ -62,6 +63,31 @@ feature 'User can create answer', '
       Capybara.using_session('guest') do
         expect(page).to have_content 'Answer title'
         expect(page).to have_content 'Answer body'
+      end
+    end
+
+    scenario 'for adding comment' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within "div#answer-#{answer.id}" do
+          click_on 'Add comment'
+          fill_in 'Body', with: 'New comment body'
+          click_on 'Add comment'
+        end
+
+        expect(page).to have_content 'New comment body'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'New comment body'
       end
     end
   end

@@ -6,6 +6,7 @@ feature 'User can create question', '
   I would like to ba able to ask a question
 ' do
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user' do
     background do
@@ -55,33 +56,32 @@ feature 'User can create question', '
     end
   end
 
-  # context 'multiple sessions' do
-  #   context "question appears on another user's page" do
-  #     Capybara.using_session('user') do
-  #       sign_in(user)
-  #       visit questions_path
-  #     end
+  context 'multiple sessions', js: true do
+    scenario 'for adding comment' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
 
-  #     Capybara.using_session('guest') do
-  #       visit questions_path
-  #     end
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
 
-  #     Capybara.using_session('user') do
-  #       fill_in 'Title', with: 'Text question'
-  #       fill_in 'Body', with: 'text text text'
-  #       click_on 'Ask'
+      Capybara.using_session('user') do
+        within "div.new-question-comment" do
+          click_on 'Add comment'
+          fill_in 'Body', with: 'New comment body'
+          click_on 'Add comment'
+        end
+        
+        expect(page).to have_content 'New comment body'
+      end
 
-  #       expect(page).to have_content 'Your question was successfully created.'
-  #       expect(page).to have_content 'Text question'
-  #       expect(page).to have_content 'text text text'
-  #     end
-
-  #     Capybara.using_session('guest') do
-  #       expect(page).to have_content 'Text question'
-  #       expect(page).to have_content 'text text text'
-  #     end
-  #   end
-  # end
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'New comment body'
+      end
+    end
+  end
 
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path

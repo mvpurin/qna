@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include Votable
   include Commentable
+  after_create :publish_question
 
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
@@ -17,5 +18,15 @@ class Question < ApplicationRecord
 
   def other_answers
     answers.where.not(id: best_answer.id)
+  end
+
+  def publish_question
+    ActionCable.server.broadcast(
+      "question-#{id}",
+      {
+        question: self,
+        rating: rating
+      }
+    )
   end
 end

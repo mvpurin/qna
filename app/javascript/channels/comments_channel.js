@@ -20,9 +20,9 @@ consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.que
       let answerId = data.comment.commentable_id
       var comments = document.getElementById("answer-" + answerId + "-comments")
     }
-
-    comments.append(data.comment.body)
-    comments.append(document.createElement("br"))
-    comments.append(document.createElement("hr"))
+    let ul = comments.getElementsByClassName("comments")[0]
+    let li = document.createElement("li")
+    li.innerHTML = data.comment.body
+    ul.appendChild(li)
   },
 })

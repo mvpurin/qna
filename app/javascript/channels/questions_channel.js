@@ -1,6 +1,6 @@
 import consumer from "./consumer";
 
-consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.question_id }, {
+consumer.subscriptions.create({ channel: "QuestionsChannel" }, {
   initialized() {
     this.update = this.update.bind(this)
   },
@@ -14,6 +14,7 @@ consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.qu
   },
 
   received(data) {
+    alert(data.question.title)
     console.log("received data: ", data.question)
   },
 })

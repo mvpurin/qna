@@ -92,9 +92,20 @@ feature 'User can create answer', '
     end
   end
 
-  scenario 'Unauthenticated user tries to give an answer' do
-    visit question_path(question)
+  describe 'Unauthenticated user' do
+    scenario 'tries to give an answer' do
+      visit question_path(question)
 
-    expect(page).to_not have_content 'Give answer'
+      expect(page).to_not have_content 'Give answer'
+    end
+
+    
+    scenario 'tries to add comment' do
+      visit question_path(question)
+
+      within "div.answers" do
+        expect(page).to_not have_content 'Add comment'
+      end
+    end
   end
 end

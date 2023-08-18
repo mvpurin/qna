@@ -30,7 +30,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to @question, notice: 'Your question was successfully created.'
+      redirect_to questions_path, notice: 'Your question was successfully created.'
     else
       render :new
     end

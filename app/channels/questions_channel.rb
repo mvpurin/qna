@@ -1,5 +1,6 @@
 class QuestionsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from("question-#{params[:question_id]}")
+    last_question = Question.last
+    stream_from("questions")
   end
 end

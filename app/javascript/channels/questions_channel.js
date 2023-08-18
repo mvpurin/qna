@@ -1,6 +1,6 @@
 import consumer from "./consumer";
 
-consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.question_id }, {
+consumer.subscriptions.create({ channel: "QuestionsChannel" }, {
   initialized() {
     this.update = this.update.bind(this)
   },
@@ -11,9 +11,15 @@ consumer.subscriptions.create({ channel: "QuestionsChannel", question_id: gon.qu
 
   connected() {
     console.log("Connected to the channel: ", this)
+    console.log("Stream from question:" + gon.question_id)
   },
 
   received(data) {
-    console.log("received data: ", data.question)
+    let questions = document.getElementsByClassName("questions")[0]
+    questions.append(data.question.title)
+    questions.append(document.createElement("br"))
+    questions.append(data.question.body)
+    questions.append(document.createElement("br"))
+    questions.append("Rating: " + data.rating)
   },
 })

@@ -1,6 +1,6 @@
 import consumer from "./consumer";
 
-consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.question_id }, {
+consumer.subscriptions.create({ channel: "CommentsChannel" }, {
   initialized() {
     this.update = this.update.bind(this)
   },

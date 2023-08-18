@@ -37,6 +37,7 @@ feature 'User can create question', '
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Ask'
+      click_on 'See question'
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
@@ -51,6 +52,7 @@ feature 'User can create question', '
       end
 
       click_on 'Ask'
+      click_on 'See question'
 
       expect(page).to have_content 'Has a badge for best answer!'
     end

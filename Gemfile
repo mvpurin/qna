@@ -61,6 +61,8 @@ gem 'gon'
 gem 'octokit', '~> 5.0'
 gem 'rubocop', require: false
 gem 'skim'
+gem 'omniauth'
+gem 'omniauth-github'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

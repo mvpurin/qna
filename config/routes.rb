@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'comments/create'
-  devise_for :users, controllers: { omniauth_collbacks: 'oauth_collbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :votable do
     member do

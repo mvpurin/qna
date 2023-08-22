@@ -10,7 +10,7 @@ class Comment < ApplicationRecord
     return if errors.any?
 
     ActionCable.server.broadcast(
-      "comments",
+      'comments',
       {
         comment: self
       }

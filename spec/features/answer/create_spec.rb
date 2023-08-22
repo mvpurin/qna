@@ -99,11 +99,10 @@ feature 'User can create answer', '
       expect(page).to_not have_content 'Give answer'
     end
 
-    
     scenario 'tries to add comment' do
       visit question_path(question)
 
-      within "div.answers" do
+      within 'div.answers' do
         expect(page).to_not have_content 'Add comment'
       end
     end

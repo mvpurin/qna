@@ -59,7 +59,6 @@ feature 'User can create question', '
   end
 
   context 'multiple sessions', js: true do
-
     scenario 'for adding question' do
       Capybara.using_session('guest') do
         visit questions_path
@@ -73,7 +72,7 @@ feature 'User can create question', '
         fill_in 'Title', with: 'Text question'
         fill_in 'Body', with: 'text text text'
         click_on 'Ask'
-  
+
         expect(page).to have_content 'Your question was successfully created.'
         expect(page).to have_content 'Text question'
         expect(page).to have_content 'text text text'
@@ -122,7 +121,7 @@ feature 'User can create question', '
     scenario 'tries to add comment' do
       visit question_path(question)
 
-      within "div.new-question-comment" do
+      within 'div.new-question-comment' do
         expect(page).to_not have_content 'Add comment'
       end
     end

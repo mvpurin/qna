@@ -59,11 +59,11 @@ gem 'byebug'
 gem 'cocoon'
 gem 'gon'
 gem 'octokit', '~> 5.0'
-gem 'rubocop', require: false
-gem 'skim'
 gem 'omniauth'
 gem 'omniauth-github'
-gem "omniauth-rails_csrf_protection"
+gem 'omniauth-rails_csrf_protection'
+gem 'rubocop', require: false
+gem 'skim'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

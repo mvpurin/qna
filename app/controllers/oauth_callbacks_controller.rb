@@ -1,5 +1,6 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
+    # render json: request.env['omniauth.auth']
     @user = User.find_for_oauth(request.env['omniauth.auth'])
 
     if @user&.persisted?

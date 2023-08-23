@@ -62,6 +62,7 @@ gem 'octokit', '~> 5.0'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-vkontakte'
 gem 'rubocop', require: false
 gem 'skim'
 

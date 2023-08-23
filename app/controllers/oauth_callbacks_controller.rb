@@ -9,4 +9,9 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to root_path, alert: 'Something went wrong'
     end
   end
+
+  def vkontakte
+    # byebug
+    render json: request.env['omniauth.auth']
+  end
 end

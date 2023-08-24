@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resource :email_confirmation, only: %i[new create edit update]
+
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, only: %i[new create destroy update], concerns: %i[votable commentable]
   end

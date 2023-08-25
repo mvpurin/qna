@@ -17,12 +17,13 @@ class EmailConfirmationsController < ApplicationController
   end
 
   def confirm
-    redirect_to controller: :oauth_callbacks, action: :confirm_user, user: @user
+    @user
   end
 
   private
 
   def set_user
+    byebug
     @user = User.find_by(email: params[:user][:email],
                          email_confirmation_token: params[:user][:email_confirmation_token])
 

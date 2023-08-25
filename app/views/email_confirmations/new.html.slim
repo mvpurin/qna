@@ -1,0 +1,9 @@
+p Please send your email 
+
+= form_with url: email_confirmation_path do |f|
+  = f.label :email
+  = f.email_field :email
+
+  = f.submit 'Send email'
+  
+= link_to 'Back', new_user_session_path

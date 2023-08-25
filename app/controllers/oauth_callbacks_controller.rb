@@ -1,6 +1,5 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
-    # render json: request.env['omniauth.auth']
     @user = User.find_for_oauth(request.env['omniauth.auth'])
 
     if @user&.persisted?
@@ -12,7 +11,13 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def vkontakte
-    # byebug
-    render json: request.env['omniauth.auth']
+    if request.env['omniauth.auth'].info[:email].present?
+      @user = User.find_for_oauth(request.env['omniauth.auth'])
+    else
+      redirect_to controller: :email_confirmations, action: :new
+    end
+
+    # @user = User.find_for_oauth(request.env['omniauth.auth'])
+    # render json: request.env['omniauth.auth']
   end
 end

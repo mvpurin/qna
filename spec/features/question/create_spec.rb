@@ -59,6 +59,7 @@ feature 'User can create question', '
   end
 
   context 'multiple sessions', js: true do
+
     scenario 'for adding question' do
       Capybara.using_session('guest') do
         visit questions_path
@@ -89,6 +90,7 @@ feature 'User can create question', '
         sign_in(user)
         visit question_path(question)
       end
+
 
       Capybara.using_session('guest') do
         visit question_path(question)

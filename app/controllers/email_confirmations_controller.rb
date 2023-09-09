@@ -23,7 +23,6 @@ class EmailConfirmationsController < ApplicationController
   private
 
   def set_user
-    byebug
     @user = User.find_by(email: params[:user][:email],
                          email_confirmation_token: params[:user][:email_confirmation_token])
 

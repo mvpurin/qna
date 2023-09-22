@@ -20,6 +20,12 @@ class EmailConfirmationsController < ApplicationController
     user = set_user
 
     if user
+      authorization = Authorization.find_authorization(session[:auth]['provider'], session[:auth]['uid'])
+
+      user.authorizations.create(provider: session[:auth]['provider'], uid: session[:auth]['uid']) if authorization.nil?
+
+      user.clear_email_confirmation_token
+
       sign_in_and_redirect user
     else
       redirect_to root_path
@@ -30,7 +36,7 @@ class EmailConfirmationsController < ApplicationController
 
   def set_user
     user = User.find_by(email: params[:user][:email],
-                         email_confirmation_token: params[:user][:email_confirmation_token])
+                        email_confirmation_token: params[:user][:email_confirmation_token])
 
     return user if user&.email_confirmation_token_period_valid?
 

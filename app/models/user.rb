@@ -25,8 +25,8 @@ class User < ApplicationRecord
   end
 
   def clear_email_confirmation_token
-    self.email_confirmation_token = nil
-    self.email_confirmation_token_sent_at = nil
+    update(email_confirmation_token: nil)
+    update(email_confirmation_token_sent_at: nil)
   end
 
   def create_authorization(auth)

@@ -50,24 +50,23 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
   describe 'Vkontakte' do
     context 'provider provides email' do
-      # let!(:user) { create(:user) }
-      # let!(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => user.email } } }
+      let(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => 'email@email.com' } } }
 
-      # it 'finds user from oauth data' do
-      #   allow(request.env).to receive(:[]).and_call_original
-      #   allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
-      #   expect(User).to receive(:find_for_oauth).with(oauth_data)
-      #   get :vkontakte
-      # end
+      it 'finds user from oauth data' do
+        allow(request.env).to receive(:[]).and_call_original
+        allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
+        expect(User).to receive(:find_for_oauth).with(oauth_data)
+        get :vkontakte
+      end
 
       context 'user exists' do
-        let!(:user) { create(:user) }
-        let!(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => user.email } } }
-        
+        let(:user) { create(:user) }
+        let(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => user.email } } }
+
         before do
-          allow(User).to receive(:find_for_oauth).and_return(user)
           allow(request.env).to receive(:[]).and_call_original
           allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
+          allow(User).to receive(:find_for_oauth).and_return(user)
           get :vkontakte
         end
 
@@ -80,15 +79,15 @@ RSpec.describe OauthCallbacksController, type: :controller do
         end
       end
 
-      context 'user does not exists' do
-        let!(:oauth_data) do
+      context 'user does not exist' do
+        let(:oauth_data) do
           { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => 'some_email@email.com' } }
         end
 
         before do
-          allow(User).to receive(:find_for_oauth)
           allow(request.env).to receive(:[]).and_call_original
           allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
+          allow(User).to receive(:find_for_oauth).and_return(nil)
           get :vkontakte
         end
 
@@ -103,11 +102,11 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'provider does not provide email' do
-      let!(:user) { create(:user) }
-      let!(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => nil } } }
+      let(:user) { create(:user) }
+      let(:oauth_data) { { 'provider' => 'vkontakte', 'uid' => 123, 'info' => { 'email' => nil } } }
 
       context 'user has an authorization' do
-        let!(:authorization) { create(:authorization, provider: 'vkontakte', uid: 123, user: user) }
+        let(:authorization) { create(:authorization, provider: 'vkontakte', uid: 123, user: user) }
 
         before do
           allow(request.env).to receive(:[]).and_call_original

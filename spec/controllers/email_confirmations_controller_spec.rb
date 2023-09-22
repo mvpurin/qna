@@ -6,11 +6,14 @@ RSpec.describe EmailConfirmationsController, type: :controller do
       let!(:user) { create(:user) }
 
       before do
+        allow(User).to receive(:find_by).and_call_original
+        allow(User).to receive(:find_by).with(user.email)
         allow(user).to receive(:set_email_confirmation_token)
+        post :create, params: { user: user }
       end
 
       it 'send an email to user' do
-        expect { post :create, params: { user: user } }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(ActionMailer::Base.deliveries.size).to eq 1
       end
     end
 

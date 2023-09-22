@@ -6,7 +6,7 @@ class EmailConfirmationsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-
+byebug
     if user.present?
       user.set_email_confirmation_token
 

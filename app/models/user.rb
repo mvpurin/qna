@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable, 
+         :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: %i[github vkontakte]
 
   has_many :questions, dependent: :destroy
@@ -30,6 +30,6 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    authorizations.create(provider: auth.provider, uid: auth.uid)
+    authorizations.create(provider: auth[:provider], uid: auth[:uid])
   end
 end

@@ -64,5 +64,17 @@ RSpec.describe Services::FindForOauth do
         expect(authorization.uid).to eq auth.uid
       end
     end
+
+    context 'user does not exist and provider does not provide email' do
+      let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123', info: { email: nil }) }
+
+      it 'does not create new user' do
+        expect { subject.call }.to_not change(User, :count)
+      end
+
+      it 'returns nil' do
+        expect(subject.call).to be_nil
+      end
+    end
   end
 end

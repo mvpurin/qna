@@ -16,19 +16,6 @@ class User < ApplicationRecord
     Services::FindForOauth.new(auth).call
   end
 
-  def set_email_confirmation_token
-    Services::ConfirmEmail.new(self).call
-  end
-
-  def email_confirmation_token_period_valid?
-    email_confirmation_token_sent_at.present? && Time.current - email_confirmation_token_sent_at <= 60.minutes
-  end
-
-  def clear_email_confirmation_token
-    update(email_confirmation_token: nil)
-    update(email_confirmation_token_sent_at: nil)
-  end
-
   def create_authorization(auth)
     authorizations.create(provider: auth[:provider], uid: auth[:uid])
   end

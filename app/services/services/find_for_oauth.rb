@@ -21,10 +21,6 @@ module Services
         user = User.create!(email: email, password: password, password_confirmation: password)
         user.create_authorization(auth)
       elsif user.nil? && email.nil?
-        # password = Devise.friendly_token[0, 20]
-        # email = '11111@email.com'
-        # user = User.create!(email: email, password: password, password_confirmation: password)
-        # user.create_authorization(auth)
         return nil
       end
       user

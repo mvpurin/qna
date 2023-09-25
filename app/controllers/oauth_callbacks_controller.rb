@@ -19,8 +19,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     elsif @user.nil?
       session[:auth] = request.env['omniauth.auth']
       redirect_to controller: :email_confirmations, action: :new
-    else
-      redirect_to root_path, alert: 'Something went wrong'
     end
   end
 end

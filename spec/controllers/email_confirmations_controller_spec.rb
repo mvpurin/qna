@@ -1,72 +1,45 @@
 require 'rails_helper'
 
 RSpec.describe EmailConfirmationsController, type: :controller do
-  describe 'POST #create' do
-    #   context 'user exists' do
-    #     let(:user) { create(:user) }
-    #     let(:mailer) { double('EmailConfirmationMailer') }
-
-    #     before do
-    #       post :create, params: { email: user.email }
-    #     end
-
-    #     it 'send an email to user' do
-    #       expect(EmailConfirmationMailer).to receive(:confirm_email).with(user).and_return(mailer)
-    #       expect(mailer).to receive(:deliver_later)
-    #     end
-    #   end
-
-    it 'redirects to new_user_session_path' do
-      post :create, params: { email: 'some_email@email.com' }
-      expect(response).to redirect_to new_user_session_path
+  describe 'GET #new' do
+    it 'should render new template' do
+      get :new
+      expect(response).to render_template :new
     end
   end
 
-  describe 'GET #confirm' do
+  describe 'POST #create' do
+    let(:user) { create(:user) }
+
     context 'user exists' do
-      let(:user) { create(:user) }
-      let(:session) { { auth: { provider: 'provider', uid: '123' } } }
+      before { expect(User).to receive(:find_by).and_return(user) }
 
-      before { user.update(email_confirmation_token: '123') }
-
-      it 'finds the user' do
-        expect(User).to receive(:find_by).with(email: user.email,
-                                               email_confirmation_token: user.email_confirmation_token)
-        get :confirm, params: { user: { email: user.email, email_confirmation_token: user.email_confirmation_token } }
+      it 'does not login user' do
+        post :create, params: { email: user.email }
+        expect(subject.current_user).to_not be
       end
 
-      it 'finds the authorization' do
-        expect(Authorization).to receive(:find_authorization).with(session[:auth][:provider], session[:auth][:uid])
-        get :confirm, params: { user: { email: user.email, email_confirmation_token: user.email_confirmation_token } }
+      it 'does not create new user' do
+        expect { post :create, params: { email: user.email } }.to_not change(User, :count)
       end
 
-      context 'and has an authorization' do
-        it 'login user' do
-          get :confirm, params: { user: { email: user.email, email_confirmation_token: user.email_confirmation_token } }
-          expect(subject.current_user).to eq user
-        end
-      end
-
-      context 'and does not have an authoriation' do
-        it 'creates authorization for user' do
-        end
-      end
-
-      it 'login user' do
+      it 'redirects to new user session path' do
+        post :create, params: { email: user.email }
+        expect(response).to redirect_to new_user_session_path
       end
     end
 
     context 'user does not exist' do
-      before do
-        get :confirm, params: { user: { email: 'some_email@email.com', email_confirmation_token: '123' } }
+      let(:session) { { auth: { provider: 'provider', uid: '123' } } }
+      
+      before { expect(User).to receive(:find_by).and_return(nil) }
+
+      it 'creates new user' do
+        expect { post :create, params: { email: 'new_user_email@email.com' }, session: { auth: { 'provider' => 'vkontakte', 'uid' => '123' } } }.to change(User, :count).by(1)
       end
 
-      it 'does not login user' do
-        expect(subject.current_user).to_not be
-      end
-
-      it 'redirects to root_path' do
-        expect(response).to redirect_to new_user_session_path
+      it 'creates new authorization for user' do
+        expect { post :create, params: { email: 'new_user_email@email.com' }, session: { auth: { 'provider' => 'vkontakte', 'uid' => '123' } } }.to change(Authorization, :count).by(1)
       end
     end
   end

@@ -16,6 +16,7 @@ feature 'User can delete an answer', '
 
   describe 'Authenticated user', js: true do
     background do
+      user_1.update(confirmed_at: DateTime.now)
       sign_in(user_1)
       visit question_path(question)
     end

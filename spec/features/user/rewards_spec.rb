@@ -11,6 +11,7 @@ image of rewars and its title
   given(:question) { create(:question, user: user_1) }
   given(:answer) { create(:answer, user: user_2, question: question) }
   given(:badge) { create(:badge, user: user_2, question: question) }
+  before { user_2.update(confirmed_at: DateTime.now) }
   before { badge.file.attach(io: File.open("#{Rails.root}/1.jpeg"), filename: '1.jpeg') }
   before { question.update(best_answer_id: answer) }
 
@@ -21,5 +22,11 @@ image of rewars and its title
     expect(page).to have_content(badge.title.to_s)
     expect(page).to have_content(question.title.to_s)
     expect(page).to have_css('img')
+  end
+
+  scenario 'Unauthenticated user tries to see reward list' do
+    visit user_path(user_2)
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

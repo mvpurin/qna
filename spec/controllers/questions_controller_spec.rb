@@ -56,8 +56,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
-
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -78,6 +78,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     context 'with valid attributes' do
@@ -110,6 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:answer) { create(:answer, user: user_2, question: question) }
     let!(:badge) { create(:badge, question: question) }
 
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     context 'with valid attributes' do
@@ -154,6 +156,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     let!(:question) { create(:question, user: user) }

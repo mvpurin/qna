@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.shared_examples 'voted' do
   let(:user_2) { create(:user) }
+  before { user_2.update(confirmed_at: DateTime.now) }
   before { login(user_2) }
 
   describe 'GET #vote_for' do

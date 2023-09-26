@@ -12,6 +12,7 @@ to be able to vote for an answer I like
 
   describe 'Authenticated user', js: true do
     background do
+      user.update(confirmed_at: DateTime.now)
       sign_in(user)
       visit question_path(question)
     end

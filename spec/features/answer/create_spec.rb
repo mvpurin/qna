@@ -10,6 +10,7 @@ feature 'User can create answer', '
 
   describe 'Authenticated user', js: true do
     background do
+      user.update(confirmed_at: DateTime.now)
       sign_in(user)
       visit question_path(question)
     end
@@ -40,6 +41,7 @@ feature 'User can create answer', '
   context 'multiple sessions', js: true do
     scenario 'for adding answer' do
       Capybara.using_session('user') do
+        user.update(confirmed_at: DateTime.now)
         sign_in(user)
         visit question_path(question)
       end
@@ -68,6 +70,7 @@ feature 'User can create answer', '
 
     scenario 'for adding comment' do
       Capybara.using_session('user') do
+        user.update(confirmed_at: DateTime.now)
         sign_in(user)
         visit question_path(question)
       end

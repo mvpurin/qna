@@ -10,6 +10,8 @@ feature 'User can add links to answer', "
   given(:gist_url) { 'https://gist.github.com/mvpurin/83c2d2c5906fc1dede66178da2763697' }
   given(:wiki_url) { 'https://wikipedia.org' }
 
+  background { user.update(confirmed_at: DateTime.now) }
+
   scenario 'User adds link when gives answer', js: true do
     sign_in(user)
     visit question_path(question)

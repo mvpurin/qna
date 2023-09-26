@@ -10,6 +10,7 @@ feature 'User can create question', '
 
   describe 'Authenticated user' do
     background do
+      user.update(confirmed_at: DateTime.now)
       sign_in(user)
       visit questions_path
       click_on 'Ask question'
@@ -59,6 +60,8 @@ feature 'User can create question', '
   end
 
   context 'multiple sessions', js: true do
+    background { user.update(confirmed_at: DateTime.now) }
+
     scenario 'for adding question' do
       Capybara.using_session('guest') do
         visit questions_path

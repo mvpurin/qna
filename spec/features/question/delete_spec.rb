@@ -10,6 +10,8 @@ feature 'User can delete a question', '
   given!(:question_1) { create(:question, user: user_1) }
   given!(:question_2) { create(:question, user: user_2) }
 
+  background { user_1.update(confirmed_at: DateTime.now) }
+
   scenario 'Authenticated user tries to delete his question' do
     sign_in(user_1)
 

@@ -1,7 +1,7 @@
-p= link_to 'Add comment', '#', class: "add-comment-#{instance.class.to_s.downcase}", data: { instance_id: instance.id }
+- if current_user
+  p= link_to 'Add comment', '#', class: "add-comment-#{instance.class.to_s.downcase}", data: { instance_id: instance.id }
 
-= form_with model: [instance, instance.comments.new], class: 'hidden new-comment', html: { id: "add-comment-#{instance.class.to_s.downcase}-#{instance.id}" }, local: false do |f|
-
-  = f.label :body
-  = f.text_field :body
-  = f.submit "Add comment"
+  = form_with model: [instance, instance.comments.new], class: 'hidden new-comment', html: { id: "add-comment-#{instance.class.to_s.downcase}-#{instance.id}" }, local: false do |f|
+    = f.label :body
+    = f.text_field :body
+    = f.submit "Add comment"

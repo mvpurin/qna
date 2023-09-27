@@ -59,6 +59,10 @@ gem 'byebug'
 gem 'cocoon'
 gem 'gon'
 gem 'octokit', '~> 5.0'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-vkontakte'
 gem 'rubocop', require: false
 gem 'skim'
 
@@ -78,11 +82,14 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  gem 'letter_opener'
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'capybara-email'
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'

@@ -6,6 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let(:answer) { create(:answer, question: question, user: user) }
 
   describe 'POST #create' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     context 'with valid attributes' do

@@ -17,10 +17,10 @@ class Answer < ApplicationRecord
     return if errors.any?
 
     ActionCable.server.broadcast(
-      "answers",
+      'answers',
       {
         answer: self,
-        rating: self.rating
+        rating: rating
       }
     )
   end

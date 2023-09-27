@@ -9,6 +9,8 @@ feature 'User can add links to question', "
   given(:gist_url) { 'https://gist.github.com/mvpurin/83c2d2c5906fc1dede66178da2763697' }
   given(:wiki_url) { 'https://wikipedia.org' }
 
+  background { user.update(confirmed_at: DateTime.now) }
+
   scenario 'User adds links when asks question', js: true do
     sign_in(user)
     visit new_question_path

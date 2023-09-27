@@ -11,6 +11,8 @@ feature 'User can mark an answer as the best one', '
   given!(:answer_2) { create(:answer, title: 'answer_title_2', question: question, user: user_2) }
   given!(:badge) { create(:badge, question: question, user: user_2) }
 
+  background { user.update(confirmed_at: DateTime.now) }
+  
   scenario 'Authenticated user tries to mark an answer as the best one', js: true do
     sign_in(user)
     visit question_path(question)

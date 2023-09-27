@@ -19,6 +19,7 @@ feature 'User can edit his question', '
 
   describe 'Authenticated user', js: true do
     background do
+      user.update(confirmed_at: DateTime.now)
       sign_in(user)
       visit questions_path
     end

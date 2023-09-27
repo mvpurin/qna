@@ -10,6 +10,7 @@ feature 'User can create answer', '
 
   describe 'Authenticated user', js: true do
     background do
+      user.update(confirmed_at: DateTime.now)
       sign_in(user)
       visit question_path(question)
     end
@@ -40,6 +41,7 @@ feature 'User can create answer', '
   context 'multiple sessions', js: true do
     scenario 'for adding answer' do
       Capybara.using_session('user') do
+        user.update(confirmed_at: DateTime.now)
         sign_in(user)
         visit question_path(question)
       end
@@ -68,6 +70,7 @@ feature 'User can create answer', '
 
     scenario 'for adding comment' do
       Capybara.using_session('user') do
+        user.update(confirmed_at: DateTime.now)
         sign_in(user)
         visit question_path(question)
       end
@@ -92,9 +95,19 @@ feature 'User can create answer', '
     end
   end
 
-  scenario 'Unauthenticated user tries to give an answer' do
-    visit question_path(question)
+  describe 'Unauthenticated user' do
+    scenario 'tries to give an answer' do
+      visit question_path(question)
 
-    expect(page).to_not have_content 'Give answer'
+      expect(page).to_not have_content 'Give answer'
+    end
+
+    scenario 'tries to add comment' do
+      visit question_path(question)
+
+      within 'div.answers' do
+        expect(page).to_not have_content 'Add comment'
+      end
+    end
   end
 end

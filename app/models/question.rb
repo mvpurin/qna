@@ -23,10 +23,10 @@ class Question < ApplicationRecord
 
   def publish_question
     ActionCable.server.broadcast(
-      "questions",
+      'questions',
       {
         question: self,
-        rating: self.rating
+        rating: rating
       }
     )
   end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'comments/create'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', confirmations: 'user/confirmations' }
 
   concern :votable do
     member do
@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   concern :commentable do
     resources :comments, only: [:create]
   end
+
+  resource :email_confirmation, only: %i[new create]
 
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, only: %i[new create destroy update], concerns: %i[votable commentable]

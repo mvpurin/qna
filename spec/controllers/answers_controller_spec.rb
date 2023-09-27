@@ -13,6 +13,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     context 'with valid attributes' do
@@ -21,11 +22,6 @@ RSpec.describe AnswersController, type: :controller do
           post :create, params: { answer: attributes_for(:answer), question_id: question, user_id: user, format: :json }
         end.to change(Answer, :count).by(1)
       end
-
-      # it 'renders create template' do
-      #   post :create, params: { answer: attributes_for(:answer), question_id: question, user_id: user, format: :json }
-      #   expect(response).to render_template :create
-      # end
     end
 
     context 'with invalid attributes' do
@@ -36,17 +32,11 @@ RSpec.describe AnswersController, type: :controller do
                          format: :json }
         end.not_to change(Answer, :count)
       end
-
-      # it 'renders create template' do
-      #   post :create,
-      #        params: { answer: attributes_for(:answer, :invalid), question_id: question, user_id: user, format: :json }
-
-      #   expect(response).to render_template :create
-      # end
     end
   end
 
   describe 'DELETE #destroy' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     let!(:answer) { create(:answer, question: question, user: user) }
@@ -62,6 +52,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { user.update(confirmed_at: DateTime.now) }
     before { login(user) }
 
     let!(:answer) { create(:answer, question: question, user: user) }

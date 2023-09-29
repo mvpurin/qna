@@ -7,14 +7,15 @@
   .rating class="rating-question-#{question.id}" 
     p id="rating-question-#{question.id}"
       = "Rating: #{question.rating}"
-    - if user_signed_in? && current_user.id != question.user_id
+      
+    - if [:vote_for, :vote_against].all? { |action| can? action, question }
       .voting 
         p= link_to 'Like', vote_for_question_path(question), remote: true
         p= link_to 'Dislike', vote_against_question_path(question), remote: true
 
   .actions
     p= link_to 'See question', question_path(question)
-    - if user_signed_in? && current_user.id == question.user_id
+    - if [:destroy, :update].all? { |action| can? action, question }
       p= link_to 'Delete question', question_path(question), method: :delete
       p= link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
 

@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
 
+  skip_authorization_check only: %i[index show]
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy vote]
 
@@ -49,7 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.user_id == current_user.id
+      if can? :destroy, @question
       @question.destroy
       redirect_to questions_path, notice: 'Question was successfully deleted.'
     else

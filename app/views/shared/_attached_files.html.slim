@@ -3,6 +3,6 @@
     - instance.files.each do |file|
       li.file id="file-#{file.id}"
         p= link_to file.filename.to_s, url_for(file) 
-        - if !current_user.nil? 
-          - if current_user.id == file.record.user_id  
-            p= link_to 'Delete file', file_path(file), method: :delete, remote: true
+        
+        - if can? :destroy, file
+          p= link_to 'Delete file', file_path(file), method: :delete, remote: true

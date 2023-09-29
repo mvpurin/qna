@@ -28,7 +28,7 @@
       - else 
         = render @question.answers
 
-    - if !current_user.nil?
+    - if can? :create, Answer
       p Add new answer 
       .answer-errors
 

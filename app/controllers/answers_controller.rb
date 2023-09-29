@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[index new create]
   before_action :find_answer, only: %i[show destroy update]
 
+  authorize_resource
+
   def create
     @answer = @question.answers.new(answer_params)
 
@@ -28,7 +30,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @question = @answer.question
-    @answer.destroy if @answer.user_id == current_user.id
+    @answer.destroy if can? :destroy, @answer
   end
 
   private

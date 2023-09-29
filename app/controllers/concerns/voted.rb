@@ -4,7 +4,7 @@ module Voted
   def vote_for
     respond_to do |format|
       @votable = instance
-      if @votable.voted_value?(current_user) == 1 || @votable.user_id == current_user.id
+      if @votable.voted_value?(current_user) == 1 || !(can? :vote_for, @votable)
         format.json do
           render json: @votable,
                  status: :forbidden
@@ -29,7 +29,7 @@ module Voted
   def vote_against
     respond_to do |format|
       @votable = instance
-      if @votable.voted_value?(current_user) == -1 || @votable.user_id == current_user.id
+      if @votable.voted_value?(current_user) == -1 || !(can? :vote_against, @votable)
         format.json do
           render json: @votable,
                  status: :forbidden

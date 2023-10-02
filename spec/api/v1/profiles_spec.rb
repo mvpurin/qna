@@ -11,18 +11,6 @@ describe 'Profiles API', type: :request do
       let(:method) { :get }
     end
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get api_path, headers: headers
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get api_path, params: { access_token: '123' }, headers: headers
-        expect(response.status).to eq 401
-      end
-    end
-
     context 'authorized' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }

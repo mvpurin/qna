@@ -61,4 +61,56 @@ describe 'Questions API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/questions/show' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :get }  
+    end
+
+    context 'authorized' do
+      let!(:comments) { create_list(:comment, 3, commentable: question, user: user) }
+      let(:access_token) { create(:access_token) }
+
+      before do
+        question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb', content_type: "application/x-ruby")
+        question.files.attach(io: File.open("#{Rails.root}/spec/spec_helper.rb"), filename: 'spec_helper.rb', content_type: "application/x-ruby")
+
+        question.links.create(name: 'first', url: 'http://localhost:3000/questions')
+        question.links.create(name: 'second', url: 'http://localhost:3000')
+
+        get api_path, params: { access_token: access_token.token }, headers: headers
+      end
+
+      it 'returns 200 status' do 
+        expect(response).to be_successful
+      end
+
+      it 'returns returns all public fields' do
+        %w[id title body created_at updated_at user_id best_answer_id likes dislikes].each do |attr|
+          expect(json['question'][attr]).to eq question.send(attr).as_json
+        end
+      end
+
+      it 'returns list of comments of question' do
+        expect(json['question']['comments'].size).to eq 3
+      end
+
+      it 'returns list of urls of files of question' do
+        file_1 = question.files.all.first
+        file_2 = question.files.all.last
+
+        expect(json['question']['files']).to include Rails.application.routes.url_helpers.rails_blob_url(file_1, host: 'localhost:3000')
+        expect(json['question']['files']).to include Rails.application.routes.url_helpers.rails_blob_url(file_2, host: 'localhost:3000')
+      end
+
+      it 'returns list of links of question' do
+        expect(json['question']['links'].first['url']).to eq 'http://localhost:3000/questions'
+        expect(json['question']['links'].last['url']).to eq 'http://localhost:3000'
+      end
+    end
+  end
 end

@@ -221,4 +221,69 @@ describe 'Questions API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/questions/id' do
+    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }  
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      context 'with valid attributes' do
+        before do
+          patch api_path, params: { access_token: access_token.token, question: { title: "new title", body: "new body", links_attributes: [{ name: "new link", url: "https://dfg.com" }] } }, headers: headers
+        end
+
+        it 'returns 200 status' do 
+          expect(response).to be_successful
+        end
+
+        it 'changes the question with new params' do
+          expect(question.reload.title).to eq "new title"
+          expect(question.reload.body).to eq "new body"
+          expect(Link.all.size).to eq 1
+        end
+      end
+
+      context 'with missing fields' do
+        before do
+          patch api_path, params: { access_token: access_token.token, question: { title: "new title" } }, headers: headers
+        end
+        
+        it 'returns 200 status' do 
+          expect(response).to be_successful
+        end
+
+        it 'does not change missing fields' do
+          expect(question.reload.title).to eq "new title"
+          expect(question.reload.body).to eq "QuestionBody"
+        end
+
+        it 'does not create a new question' do
+          expect(Question.all.size).to eq 1
+        end
+      end
+
+      context 'with invalid attributes' do
+        before do
+          patch api_path, params: { access_token: access_token.token, question: attributes_for(:question, :invalid) }, headers: headers
+        end
+
+        it 'returns 422 status' do 
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not change the question' do
+          expect(question.reload.title).to eq "QuestionTitle"
+          expect(question.reload.body).to eq "QuestionBody"
+        end
+      end
+    end
+  end
 end 

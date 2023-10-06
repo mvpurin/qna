@@ -24,6 +24,8 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer], user_id: user.id
+    can :me, User, id: user.id
+    can :all, User
     
     can :destroy, ActiveStorage::Attachment do |file|
       file.record.user_id == user.id

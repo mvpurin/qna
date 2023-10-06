@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  skip_authorization_check only: [:index, :show, :destroy, :create, :update]
+  authorize_resource class: Answer
   
   def index
     @answers = Answer.where(question_id: params[:question_id])

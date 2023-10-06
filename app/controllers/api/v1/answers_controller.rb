@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  skip_authorization_check only: [:index, :show, :destroy, :create]
+  skip_authorization_check only: [:index, :show, :destroy, :create, :update]
   
   def index
     @answers = Answer.where(question_id: params[:question_id])
@@ -30,7 +30,20 @@ class Api::V1::AnswersController < Api::V1::BaseController
     end
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params)
+
+    if !@answer.errors.any?
+      render json: @answer
+    else
+      response.status = 422
+      render json: @answer.errors.full_messages
+    end
+  end
+
   private
+
   def answer_params
     params[:answer][:user_id] = current_resource_owner.id
     params.require(:answer).permit(:title, :body, :user_id, links_attributes: %i[id url name url _destroy])

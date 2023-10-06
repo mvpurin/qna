@@ -175,4 +175,50 @@ describe 'Questions API', type: :request do
       end
     end
   end
+
+  describe 'POST #create /api/v1/questions' do
+    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:api_path) { '/api/v1/questions' }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }  
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+      let(:user) { create(:user) }
+
+      context 'with valid attributes' do
+        before do
+          post api_path, params: { access_token: access_token.token, question: {title: "fdgee", body: "fgdg", links_attributes: [{ name: "link", url: "https://dfg.com" }]} }, headers: headers
+        end
+
+        it 'returns 200 status' do 
+          expect(response).to be_successful
+        end
+
+        it 'saves a new question to database' do
+          expect(Question.all.size).to eq 1
+        end
+
+        it 'attached a link to the question' do
+          expect(Link.all.size).to eq 1
+        end
+      end
+
+      context 'with invalid attributes' do
+        before do
+          post api_path, params: { access_token: access_token.token, question: attributes_for(:question, :invalid) }, headers: headers
+        end
+
+        it 'returns 422 status' do 
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not save invalid question to database' do
+          expect(Question.all.size).to eq 0
+        end
+      end
+    end
+  end
 end 

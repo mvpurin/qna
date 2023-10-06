@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  skip_authorization_check only: [:index, :show, :destroy, :create, :update]
+  authorize_resource class: Question
 
   def index
     @questions = Question.all

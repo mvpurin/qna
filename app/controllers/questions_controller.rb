@@ -50,7 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-      if can? :destroy, @question
+    if can? :destroy, @question
       @question.destroy
       redirect_to questions_path, notice: 'Question was successfully deleted.'
     else

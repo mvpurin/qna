@@ -82,4 +82,52 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'POST #create /api/v1/questions/id/answers' do
+    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }  
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+      let(:user) { create(:user) }
+
+      context 'with valid attributes' do
+        before do
+          post api_path, params: { access_token: access_token.token, answer: {title: "fdgee", body: "fgdg", links_attributes: [{ name: "link", url: "https://dfg.com" }]} }, headers: headers
+        end
+
+        it 'returns 200 status' do 
+          expect(response).to be_successful
+        end
+
+        it 'saves a new answer to database' do
+          expect(Answer.all.size).to eq 1
+        end
+
+        it 'attached a link to the answer' do
+          expect(Link.all.size).to eq 1
+        end
+      end
+
+      context 'with invalid attributes' do
+        before do
+          post api_path, params: { access_token: access_token.token, answer: attributes_for(:answer, :invalid) }, headers: headers
+        end
+
+        it 'returns 422 status' do 
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not save invalid answer to database' do
+          expect(Answer.all.size).to eq 0
+        end
+      end
+    end
+  end
 end

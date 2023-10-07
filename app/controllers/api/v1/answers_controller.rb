@@ -1,5 +1,6 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   authorize_resource class: Answer
+  before_action :load_answer, only: [:show, :destroy, :update]
   
   def index
     @answers = Answer.where(question_id: params[:question_id])
@@ -7,14 +8,16 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def show
-    @answer = Answer.find(params[:id])
     render json: @answer, serializer: AnswerSerializer
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
-    @answer.destroy
-    head :no_content
+    if can? :destroy, @answer
+      @answer.destroy
+      head :no_content
+    else
+      head :forbidden
+    end
   end
 
   def create
@@ -31,18 +34,25 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @answer.update(answer_params)
+    if can? :update, @answer
+      @answer.update(answer_params)
 
-    if !@answer.errors.any?
-      render json: @answer
+      if @answer.errors.any?
+        response.status = 422
+        render json: @answer.errors.full_messages
+      else
+        render json: @answer
+      end
     else
-      response.status = 422
-      render json: @answer.errors.full_messages
+      head :forbidden
     end
   end
 
   private
+
+  def load_answer
+    @answer = Answer.find(params[:id])
+  end
 
   def answer_params
     params[:answer][:user_id] = current_resource_owner.id

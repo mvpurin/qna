@@ -185,12 +185,16 @@ describe 'Questions API', type: :request do
           delete api_path, params: { access_token: access_token.token }, headers: headers
         end
   
-        it 'returns forbidden status' do 
-          expect(response).to have_http_status(:forbidden)
+        it 'returns 302 status' do 
+          expect(response).to have_http_status(:found)
         end
   
         it 'does not delete the question' do
           expect(Question.all.size).to eq 1
+        end
+
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
         end
       end
     end
@@ -316,13 +320,17 @@ describe 'Questions API', type: :request do
           patch api_path, params: { access_token: access_token.token }, headers: headers
         end
   
-        it 'returns forbidden status' do 
-          expect(response).to have_http_status(:forbidden)
+        it 'returns 302 status' do 
+          expect(response).to have_http_status(:found)
         end
   
         it 'does not change the question' do
           expect(question.reload.title).to eq "QuestionTitle"
           expect(question.reload.body).to eq "QuestionBody"
+        end
+
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
         end
       end
     end

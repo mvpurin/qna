@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  authorize_resource class: Question
   before_action :load_question, only: [:show, :destroy, :update]
+  authorize_resource class: Question
 
   def index
     @questions = Question.all
@@ -12,12 +12,8 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def destroy
-    if can? :destroy, @question
-      @question.destroy
-      head :no_content
-    else
-      head :forbidden
-    end
+    @question.destroy
+    head :no_content
   end
 
   def create
@@ -32,17 +28,13 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
-    if can? :update, @question
-      @question.update(question_params)
+    @question.update(question_params)
 
-      if @question.errors.any?
-        response.status = 422
-        render json: @question.errors.full_messages
-      else
-        render json: @question
-      end
+    if @question.errors.any?
+      response.status = 422
+      render json: @question.errors.full_messages
     else
-      head :forbidden
+      render json: @question
     end
   end
 

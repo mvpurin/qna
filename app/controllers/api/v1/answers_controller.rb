@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  authorize_resource class: Answer
   before_action :load_answer, only: [:show, :destroy, :update]
-  
+  authorize_resource class: Answer
+
   def index
     @answers = Answer.where(question_id: params[:question_id])
     render json: @answers, each_serializer: AnswersSerializer
@@ -12,12 +12,8 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def destroy
-    if can? :destroy, @answer
-      @answer.destroy
-      head :no_content
-    else
-      head :forbidden
-    end
+    @answer.destroy
+    head :no_content
   end
 
   def create
@@ -34,17 +30,13 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def update
-    if can? :update, @answer
-      @answer.update(answer_params)
+    @answer.update(answer_params)
 
-      if @answer.errors.any?
-        response.status = 422
-        render json: @answer.errors.full_messages
-      else
-        render json: @answer
-      end
+    if @answer.errors.any?
+      response.status = 422
+      render json: @answer.errors.full_messages
     else
-      head :forbidden
+      render json: @answer
     end
   end
 

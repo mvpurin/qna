@@ -7,7 +7,8 @@ module Voted
       if @votable.voted_value?(current_user) == 1 || !(can? :vote_for, @votable)
         format.json do
           render json: @votable,
-                 status: :forbidden
+                 status: :forbidden,
+                 adapter: nil
         end
 
       elsif @votable.voted_value?(current_user).nil?
@@ -22,7 +23,7 @@ module Voted
 
       @votable.save
 
-      format.json { render json: @votable }
+      format.json { render json: @votable, adapter: nil }
     end
   end
 
@@ -32,7 +33,8 @@ module Voted
       if @votable.voted_value?(current_user) == -1 || !(can? :vote_against, @votable)
         format.json do
           render json: @votable,
-                 status: :forbidden
+                 status: :forbidden,
+                 adapter: nil
         end
 
       elsif @votable.voted_value?(current_user).nil?
@@ -47,7 +49,7 @@ module Voted
 
       @votable.save
 
-      format.json { render json: @votable }
+      format.json { render json: @votable, adapter: nil }
     end
   end
 

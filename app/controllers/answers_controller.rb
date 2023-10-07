@@ -14,10 +14,10 @@ class AnswersController < ApplicationController
       if @answer.save
         gon.question_id = @question.id
 
-        format.json { render json: @answer }
+        format.json { render json: @answer, adapter: nil }
       else
         format.json do
-          render json: @answer.errors.full_messages, status: :unprocessable_entity
+          render json: @answer.errors.full_messages, status: :unprocessable_entity, adapter: nil
         end
       end
     end

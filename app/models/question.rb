@@ -3,7 +3,8 @@ class Question < ApplicationRecord
   include Commentable
 
   after_create :publish_question
-
+  after_create :calculate_reputation
+  
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :badge, dependent: :destroy
@@ -29,5 +30,11 @@ class Question < ApplicationRecord
         rating: rating
       }
     )
+  end
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
   end
 end

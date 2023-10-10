@@ -170,4 +170,25 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to questions_path
     end
   end
+
+  describe 'GET #subscribe' do
+    before { user.update(confirmed_at: DateTime.now) }
+    before { login(user) }
+    
+    let!(:question) { create(:question, user: user) }
+
+    context 'user does not have a subscription yet' do
+      it 'saves a new subscription to database' do
+        expect { get :subscribe, params: { id: question, format: :js } }.to change(Subscription, :count).by(1)
+      end
+    end
+
+    context 'user has already subscribed' do
+      before { get :subscribe, params: { id: question }, format: :json }
+      
+      it 'deletes subscription from database' do
+        expect { get :subscribe, params: { id: question }, format: :json }.to change(Subscription, :count).by(-1)
+      end
+    end
+  end
 end

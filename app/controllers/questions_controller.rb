@@ -1,9 +1,10 @@
 class QuestionsController < ApplicationController
   include Voted
 
-  skip_authorization_check only: %i[index show]
+  skip_authorization_check only: %i[index show subscribe]
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy vote]
+  before_action :load_question, only: %i[show edit update destroy vote subscribe]
+  before_action :load_subscription, only: :subscribe
 
   authorize_resource
   
@@ -58,7 +59,23 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def subscribe
+    respond_to do |format|
+      if @subscription.nil?
+        current_user.subscriptions.create(question_id: params[:id])
+        format.json { render json: 'Subscribed!', adapter: nil }
+      else
+        @subscription.destroy
+        format.json { render json: "Unsubscribed!", adapter: nil }
+      end
+    end
+  end
+
   private
+
+  def load_subscription
+    @subscription = Subscription.find_by(user_id: current_user.id, question_id: params[:id])
+  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])

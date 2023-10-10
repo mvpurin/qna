@@ -1,7 +1,7 @@
 class Answer < ApplicationRecord
   include Votable
   include Commentable
-  after_create :publish_answer
+  after_create :publish_answer, :notify_author
 
   has_many :links, dependent: :destroy, as: :linkable
   belongs_to :question
@@ -23,5 +23,9 @@ class Answer < ApplicationRecord
         rating: rating
       }
     )
+  end
+
+  def notify_author
+    NewAnswerNotifyJob.perform_later(self)
   end
 end

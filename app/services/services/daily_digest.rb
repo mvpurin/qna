@@ -2,7 +2,7 @@ module Services
   class DailyDigest
     def send_digest
       load_one_day_questions
-byebug
+
       User.find_each(batch_size: 500) do |user|
         DailyDigestMailer.digest(user, questions = @questions).deliver_later
       end

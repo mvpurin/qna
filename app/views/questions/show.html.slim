@@ -20,6 +20,9 @@
     .new-question-comment
       = render "comments/new", instance: @question
 
+    .subscription
+      = link_to 'Subscribe to the question!', subscribe_question_path(@question), remote: true
+
     .answers
       h3 Answers
       - if @question.best_answer

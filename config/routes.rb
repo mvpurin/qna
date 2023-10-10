@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, only: %i[new create destroy update], concerns: %i[votable commentable]
+    get :subscribe, on: :member
   end
 
   resources :files, only: :destroy

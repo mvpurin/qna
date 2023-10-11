@@ -12,4 +12,12 @@ class NewAnswerNotifyMailer < ApplicationMailer
 
     mail to: user.email, subject: 'New answer! | QNA app'
   end
+
+  def notify_subscribers(subscribers, question, answer)
+    @greeting = "Hi"
+    @question = question
+    @answer = answer
+
+    mail to: subscribers, subject: 'New answer! | QNA app'
+  end
 end

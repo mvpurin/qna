@@ -10,4 +10,10 @@ RSpec.describe Services::NewAnswerNotify do
     expect(NewAnswerNotifyMailer).to receive(:notify_author).with(author, question, answer).and_call_original
     subject.notify_author(answer)
   end
+
+  it 'sends email to subscribed users' do
+    user.subscriptions.create(question_id: question.id)
+    expect(NewAnswerNotifyMailer).to receive(:notify_subscribers).with(["#{user.email}"], question, answer).and_call_original
+    subject.notify_subscribers(answer)
+  end
 end

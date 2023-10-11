@@ -178,13 +178,23 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:question) { create(:question, user: user) }
 
     context 'user does not have a subscription yet' do
+      it "renders json 'Subscribed!'" do
+        get :subscribe, params: { id: question }, format: :json
+        expect(response.body).to eq 'Subscribed!'
+      end
+
       it 'saves a new subscription to database' do
-        expect { get :subscribe, params: { id: question, format: :js } }.to change(Subscription, :count).by(1)
+        expect { get :subscribe, params: { id: question, format: :json } }.to change(Subscription, :count).by(1)
       end
     end
 
     context 'user has already subscribed' do
       before { get :subscribe, params: { id: question }, format: :json }
+
+      it "renders json 'Unsubscribed!'" do
+        get :subscribe, params: { id: question }, format: :json
+        expect(response.body).to eq 'Unsubscribed!'
+      end
       
       it 'deletes subscription from database' do
         expect { get :subscribe, params: { id: question }, format: :json }.to change(Subscription, :count).by(-1)

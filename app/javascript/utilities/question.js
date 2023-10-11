@@ -15,8 +15,20 @@ $(document).on('turbo:load', function () {
 
   $('.questions').on('ajax:success', function (e) {
     let instance = e.detail[0];
+    console.log(instance)
     let id = instance.id;
     let rating = instance.likes - instance.dislikes;
     $('#rating-question-' + id).html('Rating: ' + rating);
+  });
+
+  $('.subscription').on('ajax:success', function (e) {
+    let instance = e.detail[0];
+    let link = document.getElementById('subscription')
+
+    if (instance == 'Subscribed!') {
+      link.text = 'Unsubscribe!'
+    } else if (instance == 'Unsubscribed!') {
+      link.text = 'Subscribe to the question!'
+    }
   });
 });

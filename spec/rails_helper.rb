@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'capybara/email/rspec'
 require 'cancan/matchers'
 OmniAuth.config.test_mode = true
+include ActiveJob::TestHelper
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

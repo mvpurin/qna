@@ -17,14 +17,22 @@ feature 'User can subscribe on the question', '
 
     scenario 'can subscribe on question' do
       click_on 'Subscribe to the question!'
-
+      sleep(1)
+      page.driver.browser.switch_to.alert.accept
+      
       expect(page).to have_content 'Unsubscribe!'
       expect(page).to_not have_content 'Subscribe to the question!'
+      save_and_open_page
     end 
 
     scenario 'can cancel his subscription' do
       click_on 'Subscribe to the question!'
+      sleep(1)
+      page.driver.browser.switch_to.alert.accept
+      
       click_on 'Unsubscribe!'
+      sleep(1)
+      page.driver.browser.switch_to.alert.accept
 
       expect(page).to have_content 'Subscribe to the question!'
       expect(page).to_not have_content 'Unsubscribe!'

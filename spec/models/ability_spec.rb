@@ -36,7 +36,7 @@ describe Ability do
     it { should be_able_to :update, create(:question, user: user) }
     it { should_not be_able_to :update, create(:question, user: other) }
 
-    it { should be_able_to :update, create(:answer, user: user, question: question)}
+    it { should be_able_to :update, create(:answer, user: user, question: question) }
     it { should_not be_able_to :update, create(:answer, user: other, question: question) }
 
     it { should be_able_to :destroy, create(:question, user: user) }
@@ -47,7 +47,7 @@ describe Ability do
 
     it { should be_able_to :destroy, create(:link, linkable: question) }
     it { should_not be_able_to :destroy, create(:link, linkable: other_question) }
-    
+
     it { should be_able_to :destroy, create(:link, linkable: answer) }
     it { should_not be_able_to :destroy, create(:link, linkable: other_answer) }
 
@@ -62,6 +62,8 @@ describe Ability do
 
     it { should be_able_to :vote_against, other_answer }
     it { should_not be_able_to :vote_against, answer }
+
+    it { should be_able_to :update, user }
 
     it 'should be able to delete files from his question' do
       question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')

@@ -26,8 +26,10 @@ $(document).on('turbo:load', function () {
     let link = document.getElementById('subscription')
 
     if (instance == 'Subscribed!') {
+      alert("You will receive email notifications about new answers! If you don't want to, please unsubscribe")
       link.text = 'Unsubscribe!'
     } else if (instance == 'Unsubscribed!') {
+      alert('You will not receive notifications!')
       link.text = 'Subscribe to the question!'
     }
   });

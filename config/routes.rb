@@ -29,7 +29,10 @@ Rails.application.routes.draw do
   resources :files, only: :destroy
   resources :links, only: :destroy
 
-  resources :users, only: :show
+  resources :users, only: [:show, :edit, :update] do
+    # get :settings, on: :member
+    # post :settings, on: :member
+  end
 
   namespace :api do
     namespace :v1 do

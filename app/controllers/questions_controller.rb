@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   before_action :load_subscription, only: :subscribe
 
   authorize_resource
-  
+
   def index
     @questions = Question.all
   end
@@ -34,7 +34,8 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to questions_path, notice: 'Your question was successfully created.'
+      redirect_to questions_path,
+                  notice: 'Your question was successfully created. You will receive notifications about new answers to your question. See Settings to refuse.'
     else
       render :new
     end
@@ -66,7 +67,7 @@ class QuestionsController < ApplicationController
         format.json { render json: 'Subscribed!', adapter: nil }
       else
         @subscription.destroy
-        format.json { render json: "Unsubscribed!", adapter: nil }
+        format.json { render json: 'Unsubscribed!', adapter: nil }
       end
     end
   end

@@ -27,6 +27,7 @@ class Ability
     can :me, User, id: user.id
     can :all, User
     can :subscribe, Question
+    can :update, User, id: user.id
     
     can :destroy, ActiveStorage::Attachment do |file|
       file.record.user_id == user.id

@@ -49,7 +49,7 @@ feature 'User can create question', '
       fill_in 'Body', with: 'text text text'
 
       within '.badge' do
-        attach_file "#{Rails.root}/1.jpeg"
+        attach_file "#{Rails.root}/spec/features/1.jpeg"
       end
 
       click_on 'Ask'

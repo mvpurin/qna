@@ -22,7 +22,6 @@ feature 'User can subscribe on the question', '
       
       expect(page).to have_content 'Unsubscribe!'
       expect(page).to_not have_content 'Subscribe to the question!'
-      save_and_open_page
     end 
 
     scenario 'can cancel his subscription' do

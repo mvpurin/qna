@@ -4,7 +4,7 @@ RSpec.describe Badge, type: :model do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:badge) { create(:badge, user: user, question: question) }
-  before { badge.file.attach(io: File.open("#{Rails.root}/1.jpeg"), filename: '1.jpeg') }
+  before { badge.file.attach(io: File.open("#{Rails.root}/spec/features/1.jpeg"), filename: '1.jpeg') }
 
   it { should belong_to(:question) }
   it { should belong_to(:user).optional }

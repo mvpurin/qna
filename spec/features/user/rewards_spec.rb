@@ -12,7 +12,7 @@ image of rewars and its title
   given(:answer) { create(:answer, user: user_2, question: question) }
   given(:badge) { create(:badge, user: user_2, question: question) }
   before { user_2.update(confirmed_at: DateTime.now) }
-  before { badge.file.attach(io: File.open("#{Rails.root}/1.jpeg"), filename: '1.jpeg') }
+  before { badge.file.attach(io: File.open("#{Rails.root}/spec/features/1.jpeg"), filename: '1.jpeg') }
   before { question.update(best_answer_id: answer) }
 
   scenario 'Authenticated user can see his reward list' do

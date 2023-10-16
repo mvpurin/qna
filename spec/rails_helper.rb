@@ -8,7 +8,7 @@ require 'rspec/rails'
 require 'capybara/email/rspec'
 require 'cancan/matchers'
 OmniAuth.config.test_mode = true
-include ActiveJob::TestHelper
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -35,6 +35,7 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  config.include ActiveJob::TestHelper
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller

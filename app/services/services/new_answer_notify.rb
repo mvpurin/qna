@@ -11,7 +11,7 @@ module Services
       question = answer.question
       subscribers = User.where(id: Subscription.where(question_id: question.id).pluck(:user_id)).pluck(:email)
 
-      NewAnswerNotifyMailer.notify_subscribers(subscribers, question, answer).deliver_later
+      NewAnswerNotifyMailer.notify_subscribers(subscribers, question, answer).deliver_later if subscribers.any?
     end
   end
 end

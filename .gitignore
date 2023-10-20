@@ -42,3 +42,6 @@
 1.jpeg
 
 /dump.rdb
+
+config/*.sphinx.conf
+db/sphinx

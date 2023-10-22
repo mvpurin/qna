@@ -1,0 +1,21 @@
+.search-results 
+  h1 Search results 
+  - if @questions.any?
+    h2 Questions:
+    ul class="questions-results"
+    - @questions.each do |q|
+      li = q.title
+      = q.body
+  - if @answers.any?
+    h2 Answers:
+    ul class="answers-results"
+    - @answers.each do |a|
+      li = a.title
+      = a.body
+  - if @comments.any?
+    h2 Comments:
+    ul class="comments-results"
+    - @comments.each do |c|
+      li = c.body
+
+= link_to 'Back', root_path

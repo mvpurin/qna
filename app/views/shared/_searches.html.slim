@@ -1,0 +1,6 @@
+= form_with url: search_path, method: :get do |form|
+  = form.select(:object_field, ['Question', 'Answer', 'Comment'], include_blank: "Search everywhere", class: 'search')
+  = form.label :query, "Search for:"
+  = form.text_field :query
+  = form.submit "Search"
+

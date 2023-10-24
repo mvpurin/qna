@@ -20,6 +20,10 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  ThinkingSphinx::Callbacks.append(
+    self, :behaviours => [:sql]
+  )
+
   def other_answers
     answers.where.not(id: best_answer.id)
   end

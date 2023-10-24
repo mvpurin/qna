@@ -13,6 +13,10 @@ class Answer < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  ThinkingSphinx::Callbacks.append(
+    self, :behaviours => [:sql]
+  )
+
   def publish_answer
     return if errors.any?
 

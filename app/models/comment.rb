@@ -6,6 +6,10 @@ class Comment < ApplicationRecord
 
   validates :body, presence: true
 
+  ThinkingSphinx::Callbacks.append(
+    self, :behaviours => [:sql]
+  )
+
   def publish_comment
     return if errors.any?
 

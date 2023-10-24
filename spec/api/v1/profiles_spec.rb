@@ -60,7 +60,7 @@ describe 'Profiles API', type: :request do
       end
 
       it 'returns all public fields' do
-        %w[id email admin created_at updated_at].each do |attr|
+        %w[id email admin created_at updated_at author_notifications].each do |attr|
           expect(user_response[attr]).to eq other_user.send(attr).as_json
         end
       end

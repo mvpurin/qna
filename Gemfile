@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-
-gem 'dotenv-rails', groups: %i[development test]
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+# gem 'dotenv-rails', groups: %i[development test]
 
 ruby '3.0.2'
 
@@ -49,6 +49,7 @@ gem 'jquery-rails'
 gem 'slim-rails'
 # Use Sass to process CSS
 gem 'sassc-rails'
+gem 'mini_racer'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'

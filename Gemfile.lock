@@ -502,6 +502,7 @@ DEPENDENCIES
   launchy
   letter_opener
   mini_racer
+  msgpack
   mysql2
   octokit (~> 5.0)
   oj

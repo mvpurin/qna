@@ -21,8 +21,8 @@
       - if can? :update, answer.question
         p= link_to 'Best answer!', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true
       - if [:destroy, :update].all? { |action| can? action, answer }
-        p= link_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
-        p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        p= button_to 'Delete answer', answer_path(answer), method: :delete, class: 'delete-answer-link', data: { answer_id: answer.id }, remote: true
+        p= button_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
         .edit_answer
           p
             = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|

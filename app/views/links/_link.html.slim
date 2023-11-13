@@ -8,4 +8,4 @@ ul class="links"
         - else  
           p= link_to link.name, link.url
         - if can? :destroy, link
-            p= link_to "Delete link", link_path(link), method: :delete, remote: true
+            p= button_to "Delete link", link_path(link), method: :delete, remote: true

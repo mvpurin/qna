@@ -3,8 +3,10 @@ module Services
     def send_digest
       load_one_day_questions
 
-      User.find_each(batch_size: 500) do |user|
-        DailyDigestMailer.digest(user, questions = @questions).deliver_later
+      if !@questions.empty?
+        User.find_each(batch_size: 500) do |user|
+          DailyDigestMailer.digest(user, questions = @questions).deliver_later
+        end
       end
     end
 

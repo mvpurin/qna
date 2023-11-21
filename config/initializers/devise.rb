@@ -271,25 +271,25 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github,
-  #                 Rails.application.credentials[Rails.env.to_sym].dig(:github, :app_id),
-  #                 Rails.application.credentials[Rails.env.to_sym].dig(:github, :app_secret),
-  #                 scope: 'user:email, read:user'
-
-  # config.omniauth :vkontakte,
-  #                 Rails.application.credentials[Rails.env.to_sym].dig(:vkontakte, :app_id),
-  #                 Rails.application.credentials[Rails.env.to_sym].dig(:vkontakte, :app_secret),
-  #                 scope: 'email'
-
   config.omniauth :github,
-                  ENV['GITHUB_APP_ID'],
-                  ENV['GITHUB_APP_SECRET'],
+                  Rails.application.credentials[Rails.env.to_sym].dig(:github, :app_id),
+                  Rails.application.credentials[Rails.env.to_sym].dig(:github, :app_secret),
                   scope: 'user:email, read:user'
 
   config.omniauth :vkontakte,
-                  ENV['VKONTAKTE_APP_ID'],
-                  ENV['VKONTAKTE_APP_SECRET'],
+                  Rails.application.credentials[Rails.env.to_sym].dig(:vkontakte, :app_id),
+                  Rails.application.credentials[Rails.env.to_sym].dig(:vkontakte, :app_secret),
                   scope: 'email'
+
+  # config.omniauth :github,
+  #                 ENV['GITHUB_APP_ID'],
+  #                 ENV['GITHUB_APP_SECRET'],
+  #                 scope: 'user:email, read:user'
+
+  # config.omniauth :vkontakte,
+  #                 ENV['VKONTAKTE_APP_ID'],
+  #                 ENV['VKONTAKTE_APP_SECRET'],
+  #                 scope: 'email'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

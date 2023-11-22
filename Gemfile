@@ -51,6 +51,7 @@ gem 'slim-rails'
 # Use Sass to process CSS
 gem 'sassc-rails'
 gem 'mini_racer'
+gem 'unicorn'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
@@ -102,6 +103,7 @@ group :development do
   gem 'capistrano-rbenv', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do

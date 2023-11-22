@@ -44,3 +44,5 @@ set :rbenv_type, :user # or :system, or :fullstaq (for Fullstaq Ruby), depends o
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails sidekiq sidekiqctl}
 set :rbenv_roles, :all # default value
+
+after 'deploy:publishing', 'unicorn:restart'

@@ -3,9 +3,10 @@ ul class="links"
     h5 Links
     - instance.links.each do |link|
       li.links id="link-#{link.id}"
-        - if link.gist?
-          p id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}" data-gist-id="#{link.id}"
-        - else  
-          p= link_to link.name, link.url
+        - cache link do
+          - if link.gist?
+            p id="gist-link-#{link.id}" class="gist-link" data-gist-url="#{link.gist_url}" data-gist-id="#{link.id}"
+          - else  
+            p= link_to link.name, link.url
         - if can? :destroy, link
             p= button_to "Delete link", link_path(link), method: :delete, remote: true

@@ -1,9 +1,10 @@
 - if answer.persisted?
   .answer id="answer-#{answer.id}"
-    p class="answer-title-#{answer.id}"
-      = answer.title 
-    p class="answer-body-#{answer.id}"
-      = answer.body 
+    - cache answer do
+      p class="answer-title-#{answer.id}"
+        = answer.title 
+      p class="answer-body-#{answer.id}"
+        = answer.body 
 
     .attached_files 
       = render "shared/attached_files", instance: answer
@@ -43,6 +44,7 @@
                   = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
               p
                 = f.submit 'Save'
+
     .answer-comments id="answer-#{answer.id}-comments"
       = render "comments/comment", instance: answer
 

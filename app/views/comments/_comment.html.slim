@@ -2,5 +2,6 @@ ul class="comments"
   - if instance.comments.any?
     h3 Comments:
     - instance.comments.each do |comment|
-      li.comment id="comment-#{comment.id}"
-        p= comment.body
+      - cache comment do
+        li.comment id="comment-#{comment.id}"
+          p= comment.body

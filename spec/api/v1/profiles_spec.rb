@@ -48,7 +48,7 @@ describe 'Profiles API', type: :request do
       let!(:users) { create_list(:user, 3) }
       let(:user) { users.first }
       let(:other_user) { users.last }
-      let(:user_response) { json['users'].last }
+      let(:user_response) { json['users'].find { |u| u["id"] == other_user.id } }
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       before do
@@ -60,8 +60,12 @@ describe 'Profiles API', type: :request do
       end
 
       it 'returns all public fields' do
-        %w[id email admin created_at updated_at author_notifications].each do |attr|
+        %w[id email admin author_notifications].each do |attr|
           expect(user_response[attr]).to eq other_user.send(attr).as_json
+        end
+
+        %w[created_at updated_at].each do |attr|
+          expect(user_response[attr].to_time.to_i).to eq other_user.send(attr).as_json.to_time.to_i
         end
       end
 

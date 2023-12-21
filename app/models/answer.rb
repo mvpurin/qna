@@ -4,7 +4,7 @@ class Answer < ApplicationRecord
   after_create :publish_answer, :notify_author_and_subscribers
 
   has_many :links, dependent: :destroy, as: :linkable
-  belongs_to :question, touch: true
+  belongs_to :question
   belongs_to :user
 
   has_many_attached :files

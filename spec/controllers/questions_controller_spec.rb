@@ -1,5 +1,4 @@
 require 'rails_helper'
-# require 'shared/voted_spec'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }

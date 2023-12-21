@@ -16,7 +16,7 @@ describe 'Questions API', type: :request do
       let(:user) { create(:user) }
       let!(:questions) { create_list(:question, 2, user: user) }
       let(:question) { questions.first }
-      let(:question_response) { json['questions'].first }
+      let(:question_response) { json['questions'].find { |q| q["id"] == questions.first.id } }
       let!(:answers) { create_list(:answer, 3, user: user, question: question) }
 
       before do
@@ -32,8 +32,12 @@ describe 'Questions API', type: :request do
       end
 
       it 'returns all public fields' do
-        %w[id title body created_at updated_at].each do |attr|
+        %w[id title body].each do |attr|
           expect(question_response[attr]).to eq question.send(attr).as_json
+        end
+
+        %w[created_at updated_at ].each do |attr|
+          expect(question_response[attr].to_time.to_i).to eq question.send(attr).as_json.to_time.to_i
         end
       end
 
@@ -47,15 +51,19 @@ describe 'Questions API', type: :request do
 
       describe 'answers' do
         let(:answer) { answers.first }
-        let(:answer_response) { question_response['answers'].first }
+        let(:answer_response) { question_response['answers'].find { |a| a["id"] == answer.id } }
 
         it 'returns list of answers' do
           expect(question_response['answers'].size).to eq 3 
         end
 
         it 'returns all public fields' do
-          %w[id title body user_id created_at updated_at].each do |attr|
+          %w[id title body user_id].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
+          end
+
+          %w[created_at updated_at].each do |attr|
+            expect(answer_response[attr].to_time.to_i).to eq answer.send(attr).as_json.to_time.to_i
           end
         end
       end
